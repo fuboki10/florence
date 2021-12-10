@@ -1,15 +1,22 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import * as bcrypt from 'bcryptjs';
 
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ select: false })
-  @Length(6, 30, {
+  @Column()
+  @Length(8, 30, {
     message:
-      'The password must be at least 6 but not longer than 30 characters',
+      'The password must be at least 8 but not longer than 30 characters',
   })
   @IsNotEmpty({ message: 'The password is required' })
   password: string;
@@ -32,4 +39,19 @@ export class User {
   @IsEmail({}, { message: 'Incorrect email' })
   @IsNotEmpty({ message: 'The email is required' })
   email: string;
+
+  constructor(data: Partial<User> = {}) {
+    Object.assign(this, data);
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword(): Promise<void> {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+
+  async checkPassword(plainPassword: string): Promise<boolean> {
+    return await bcrypt.compare(plainPassword, this.password);
+  }
 }
