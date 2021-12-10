@@ -43,7 +43,7 @@ export class AuthService {
     const MS_IN_SECONDS = 1000;
 
     return {
-      access_token: token,
+      token: token,
       token_type: 'bearer',
       expires_in:
         this.configService.get<number>('JWT_EXPIRE_SECONDS') * MS_IN_SECONDS,

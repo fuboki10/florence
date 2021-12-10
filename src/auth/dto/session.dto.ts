@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Session {
   @ApiProperty()
-  public access_token: string;
+  public token: string;
 
   @ApiProperty()
   public token_type: string;

@@ -6,14 +6,12 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-console.log(`${__dirname}/../.${process.env.NODE_ENV}.env`);
-
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       ignoreEnvFile: false,
-      envFilePath: `${__dirname}/../.${process.env.NODE_ENV}.env`,
+      envFilePath: `${process.env.PWD}/.${process.env.NODE_ENV}.env`,
     }),
     AuthModule,
     UsersModule,
@@ -24,7 +22,7 @@ console.log(`${__dirname}/../.${process.env.NODE_ENV}.env`);
         host: 'localhost',
         port: 5432,
         username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD', '123'),
+        password: configService.get<string>('DB_PASSWORD'),
         database: 'florence',
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
