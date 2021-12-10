@@ -13,10 +13,7 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async validateUser(
-    email: string,
-    inputPassword: string,
-  ): Promise<User> {
+  public async validateUser(email: string, password: string): Promise<User> {
     let user: User;
 
     // check if user is found
@@ -27,7 +24,7 @@ export class AuthService {
     }
 
     // check if password is right
-    if (!(await user.checkPassword(inputPassword))) {
+    if (!(await user.checkPassword(password))) {
       throw new UnauthorizedException('Invalid email or password!');
     }
 

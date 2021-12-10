@@ -16,14 +16,13 @@ import { LocalAuthGuard } from './local/local-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
-@UsePipes(new ValidationPipe())
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Version('1')
-  @UseGuards(LocalAuthGuard)
-  @ApiBody({ type: SignIn })
   @ApiResponse({ type: Session })
+  @ApiBody({ type: SignIn })
+  @UseGuards(LocalAuthGuard)
   @Post('signin')
   public async login(@AuthUser() user: User): Promise<Session> {
     return this.authService.login(user);
@@ -32,6 +31,7 @@ export class AuthController {
   @Version('1')
   @ApiBody({ type: SignUp })
   @ApiResponse({ type: Session })
+  @UsePipes(new ValidationPipe())
   @Post('signup')
   public async register(@Body() signUp: SignUp): Promise<Session> {
     return this.authService.register(signUp);
