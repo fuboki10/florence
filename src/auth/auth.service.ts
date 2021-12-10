@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
-import { Session } from './dto';
+import { Session, SignUp } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
@@ -48,5 +48,11 @@ export class AuthService {
       expires_in:
         this.configService.get<number>('JWT_EXPIRE_SECONDS') * MS_IN_SECONDS,
     };
+  }
+
+  public async register(signUp: SignUp): Promise<Session> {
+    const user = await this.usersService.create(signUp);
+
+    return this.login(user);
   }
 }

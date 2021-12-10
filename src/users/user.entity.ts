@@ -22,11 +22,11 @@ export class User {
   password: string;
 
   @Column()
-  @IsNotEmpty({ message: 'The firstname is required' })
+  @IsNotEmpty({ message: 'The firstName is required' })
   firstName: string;
 
   @Column()
-  @IsNotEmpty({ message: 'The lastname is required' })
+  @IsNotEmpty({ message: 'The lastName is required' })
   lastName: string;
 
   @Column({

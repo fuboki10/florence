@@ -1,13 +1,22 @@
-import { Controller, Post, UseGuards, Version } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  UsePipes,
+  Version,
+} from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ValidationPipe } from '../common/validation.pipe';
 import { AuthUser } from '../users/user.decorator';
 import { User } from '../users/user.entity';
 import { AuthService } from './auth.service';
-import { SignIn, Session } from './dto';
+import { SignIn, Session, SignUp } from './dto';
 import { LocalAuthGuard } from './local/local-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
+@UsePipes(new ValidationPipe())
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -18,5 +27,13 @@ export class AuthController {
   @Post('signin')
   public async login(@AuthUser() user: User): Promise<Session> {
     return this.authService.login(user);
+  }
+
+  @Version('1')
+  @ApiBody({ type: SignUp })
+  @ApiResponse({ type: Session })
+  @Post('signup')
+  public async register(@Body() signUp: SignUp): Promise<Session> {
+    return this.authService.register(signUp);
   }
 }

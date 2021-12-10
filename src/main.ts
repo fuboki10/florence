@@ -14,7 +14,6 @@ async function bootstrap() {
 
   /** Set prefices for app url */
   app.setGlobalPrefix(globalPrefix);
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   /** Add Versioning for the app */
   app.enableVersioning({
