@@ -8,6 +8,12 @@ import {
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 import * as bcrypt from 'bcryptjs';
 
+export enum Role {
+  Admin = 'admin',
+  Learner = 'learner',
+  Instructor = 'instructor',
+}
+
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -39,6 +45,9 @@ export class User {
   @IsEmail({}, { message: 'Incorrect email' })
   @IsNotEmpty({ message: 'The email is required' })
   email: string;
+
+  @Column({ default: Role.Learner })
+  role: Role;
 
   constructor(data: Partial<User> = {}) {
     Object.assign(this, data);
