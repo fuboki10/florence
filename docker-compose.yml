@@ -12,7 +12,7 @@ services:
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USER=postgres
-      - DB_PW=crudjs
+      - DB_PW=123
     ports:
       - 3000:3000
     depends_on:
@@ -22,7 +22,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    command: npm run dev
+    command: npm start
 
   postgres:
     image: postgres:alpine
@@ -30,9 +30,3 @@ services:
     environment:
       - DB_USER=postgres
       - DB_PASS=123
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
