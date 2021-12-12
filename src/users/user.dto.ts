@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-
+import { Role } from './user.entity';
 export class Profile {
   @ApiProperty()
   readonly id: string;
@@ -15,4 +15,7 @@ export class Profile {
 
   @ApiProperty()
   readonly email: string;
+
+  @ApiProperty()
+  readonly role: Role;
 }

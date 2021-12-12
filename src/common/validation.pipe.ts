@@ -43,7 +43,9 @@ export class ValidationPipe implements PipeTransform<any> {
 
       const constraints = el.constraints ? el.constraints : el.children;
 
-      result[prop] = constraints;
+      Object.entries(constraints).forEach((constraint) => {
+        result[prop] = `${constraint[1]}`;
+      });
     });
 
     return result;

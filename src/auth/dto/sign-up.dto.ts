@@ -6,35 +6,41 @@ import {
   MinLength,
   IsDateString,
   IsAlpha,
+  IsEnum,
 } from 'class-validator';
+import { Role } from '../../users/user.entity';
 
 export class SignUp {
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsDefined()
   @IsEmail()
   readonly email: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsDefined()
   @IsNotEmpty()
   @MinLength(8)
   readonly password: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsDefined()
   @IsNotEmpty()
   @IsDateString()
   readonly birthDate: Date;
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsDefined()
   @IsNotEmpty()
   @IsAlpha()
   readonly firstName: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsDefined()
   @IsNotEmpty()
   @IsAlpha()
   readonly lastName: string;
+
+  @ApiProperty({ required: false })
+  @IsEnum(Role)
+  readonly role?: Role;
 }
