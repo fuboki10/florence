@@ -12,16 +12,13 @@ services:
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USER=postgres
-      - DB_PW=crudjs
+      - DB_PW=123
     ports:
       - 3000:3000
     depends_on:
       - postgres
     links:
       - postgres:postgres
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
     command: npm run dev
 
   postgres:
