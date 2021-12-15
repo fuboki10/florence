@@ -5,7 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { LibrariesModule } from './libraries/libraries.module';
+import { CoursesModule } from './courses/courses.module';
 
 @Module({
   imports: [
@@ -30,7 +30,7 @@ import { LibrariesModule } from './libraries/libraries.module';
       }),
       inject: [ConfigService],
     }),
-    LibrariesModule,
+    CoursesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
