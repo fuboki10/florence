@@ -1,10 +1,6 @@
 FROM node:alpine
 
-USER node
-
-RUN mkdir /home/node/app
-WORKDIR /home/node/app
-COPY . /home/node/app
+COPY . .
 RUN npm install --production
 
 CMD [ "npm", "start" ]

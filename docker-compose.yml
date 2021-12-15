@@ -19,11 +19,7 @@ services:
       - postgres
     links:
       - postgres:postgres
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
     command: npm start
-
   postgres:
     image: postgres:alpine
     restart: always
