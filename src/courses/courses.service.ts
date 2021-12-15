@@ -24,15 +24,11 @@ export class CoursesService {
     return course;
   }
 
-  public async find({
-    limit,
-    offset,
-    where,
-  }: {
-    limit?: number;
-    offset?: number;
+  public async find(options: {
+    take?: number;
+    skip?: number;
     where?: FindOneOptions<Course>;
   }): Promise<Course[]> {
-    return this.courseRepository.find({ where, skip: offset, take: limit });
+    return this.courseRepository.find(options);
   }
 }

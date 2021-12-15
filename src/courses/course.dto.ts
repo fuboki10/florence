@@ -10,3 +10,11 @@ export class CourseDto {
   @ApiProperty()
   readonly title: string;
 }
+
+export class CreateCourseDto {
+  @ApiProperty()
+  readonly description: string;
+
+  @ApiProperty()
+  readonly title: string;
+}

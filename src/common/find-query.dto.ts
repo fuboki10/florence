@@ -2,8 +2,8 @@ import { IsNumberString } from 'class-validator';
 
 export class FindQuery {
   @IsNumberString()
-  limit: number;
+  take: number;
 
   @IsNumberString()
-  offset: number;
+  skip: number;
 }
