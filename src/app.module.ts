@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CoursesModule } from './courses/courses.module';
+import { LessonsModule } from './lessons/lessons.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CoursesModule } from './courses/courses.module';
       inject: [ConfigService],
     }),
     CoursesModule,
+    LessonsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,8 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity({ name: 'courses' })
-export class Course {
+@Entity({ name: 'lessons' })
+export class Lesson {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
@@ -14,7 +14,7 @@ export class Course {
   @IsNotEmpty({ message: 'Description is required' })
   description: string;
 
-  constructor(data: Partial<Course> = {}) {
+  constructor(data: Partial<Lesson> = {}) {
     Object.assign(this, data);
   }
 }

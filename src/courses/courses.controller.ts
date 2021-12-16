@@ -21,7 +21,7 @@ import { FindOneParams, ValidationPipe } from '../common';
 import { JwtAuthGuard } from '../auth/jwt';
 import { CourseDto, CreateCourseDto } from './course.dto';
 import { CoursesService } from './courses.service';
-import { FindQuery } from 'src/common/find-query.dto';
+import { FindQuery } from '../common/find-query.dto';
 
 @Controller('courses')
 @ApiTags('courses')
