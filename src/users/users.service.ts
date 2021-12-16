@@ -32,7 +32,7 @@ export class UsersService {
   public async update(id: string, data: EditProfile): Promise<User> {
     const user = await this.findOne({ where: { id } });
 
-    // check if password is right
+    // check if password is correct
     if (!(await user.checkPassword(data.password))) {
       throw new UnauthorizedException('Invalid password!');
     }
@@ -43,7 +43,7 @@ export class UsersService {
 
     // update
     Object.keys(partialUser).forEach((key) => {
-      user[key] = partialUser[key];
+      user[key] = partialUser[key] ?? user[key];
     });
 
     await this.userRepository.save(user);
