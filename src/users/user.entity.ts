@@ -20,9 +20,9 @@ export class User {
   id: string;
 
   @Column()
-  @Length(8, 30, {
+  @Length(6, 30, {
     message:
-      'The password must be at least 8 but not longer than 30 characters',
+      'The password must be at least 6 but not longer than 30 characters',
   })
   @IsNotEmpty({ message: 'The password is required' })
   password: string;

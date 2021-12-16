@@ -10,6 +10,6 @@ export class SignIn {
   @ApiProperty({ required: true })
   @IsDefined()
   @IsNotEmpty()
-  @MinLength(8)
+  @MinLength(6)
   readonly password: string;
 }
