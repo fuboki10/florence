@@ -33,13 +33,13 @@ export class UsersService {
     const user = await this.findOne({ where: { id } });
 
     // check if password is right
-    if (!(await user.checkPassword(data.oldPassword))) {
+    if (!(await user.checkPassword(data.password))) {
       throw new UnauthorizedException('Invalid password!');
     }
 
-    data.password = data.newPassword ?? data.oldPassword;
+    data.password = data.newPassword ?? data.password;
 
-    const { newPassword, oldPassword, ...partialUser } = data;
+    const { newPassword, ...partialUser } = data;
 
     // update
     Object.keys(partialUser).forEach((key) => {

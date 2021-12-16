@@ -37,10 +37,8 @@ export class EditProfile {
   readonly role?: Role;
 
   @ApiProperty()
-  readonly oldPassword: string;
+  public password: string;
 
   @ApiProperty()
   readonly newPassword?: string;
-
-  public password: string;
 }
