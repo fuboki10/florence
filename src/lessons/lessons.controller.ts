@@ -37,7 +37,7 @@ export class LessonsController {
   }
 
   @Version('1')
-  @ApiResponse({ type: CreateLessonDto })
+  @ApiResponse({ type: LessonDto })
   @ApiBody({ type: CreateLessonDto })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()

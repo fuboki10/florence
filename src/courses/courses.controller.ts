@@ -37,7 +37,7 @@ export class CoursesController {
   }
 
   @Version('1')
-  @ApiResponse({ type: CreateCourseDto })
+  @ApiResponse({ type: CourseDto })
   @ApiBody({ type: CreateCourseDto })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
