@@ -15,7 +15,10 @@ export class CoursesService {
   }
 
   public async findOne(where: FindOneOptions<Course>): Promise<Course> {
-    const course = await this.courseRepository.findOne(where);
+    const course = await this.courseRepository.findOne({
+      ...where,
+      relations: ['lessons'],
+    });
 
     if (!course) {
       throw new NotFoundException('course is not Found!');
@@ -29,6 +32,6 @@ export class CoursesService {
     skip?: number;
     where?: FindOneOptions<Course>;
   }): Promise<Course[]> {
-    return this.courseRepository.find(options);
+    return this.courseRepository.find({ ...options, relations: ['lessons'] });
   }
 }

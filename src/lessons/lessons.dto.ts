@@ -9,6 +9,12 @@ export class LessonDto {
 
   @ApiProperty()
   readonly title: string;
+
+  @ApiProperty()
+  readonly url: string;
+
+  @ApiProperty()
+  readonly course_id: number;
 }
 
 export class CreateLessonDto {
@@ -17,4 +23,10 @@ export class CreateLessonDto {
 
   @ApiProperty()
   readonly title: string;
+
+  @ApiProperty()
+  readonly url: string;
+
+  @ApiProperty()
+  readonly course_id: number;
 }

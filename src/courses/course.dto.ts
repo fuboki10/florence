@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { LessonDto } from '../lessons/lessons.dto';
 
 export class CourseDto {
   @ApiProperty()
@@ -9,6 +10,9 @@ export class CourseDto {
 
   @ApiProperty()
   readonly title: string;
+
+  @ApiProperty()
+  readonly lessons: LessonDto[];
 }
 
 export class CreateCourseDto {

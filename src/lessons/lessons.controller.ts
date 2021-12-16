@@ -9,14 +9,7 @@ import {
   UsePipes,
   Version,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiParam,
-  ApiQuery,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt';
 import { FindQuery } from '../common/find-query.dto';
 import { FindOneParams, ValidationPipe } from '../common';
@@ -31,7 +24,6 @@ export class LessonsController {
 
   @Version('1')
   @ApiResponse({ type: LessonDto })
-  @ApiParam({ name: 'id', type: Number })
   @Get(':id')
   public async getLesson(@Param() params: FindOneParams): Promise<LessonDto> {
     return this.lessonsService.findOne({ where: { id: params.id } });
@@ -39,7 +31,6 @@ export class LessonsController {
 
   @Version('1')
   @ApiResponse({ type: [LessonDto] })
-  @ApiQuery({ type: FindQuery })
   @Get()
   public async get(@Query() query: FindQuery): Promise<LessonDto[]> {
     return this.lessonsService.find(query);

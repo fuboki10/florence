@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
+import { Lesson } from '../lessons/lesson.entity';
 
 @Entity({ name: 'courses' })
 export class Course {
@@ -13,6 +14,9 @@ export class Course {
   @Column()
   @IsNotEmpty({ message: 'Description is required' })
   description: string;
+
+  @OneToMany((type) => Lesson, (lesson) => lesson.course)
+  lessons: Lesson[];
 
   constructor(data: Partial<Course> = {}) {
     Object.assign(this, data);
