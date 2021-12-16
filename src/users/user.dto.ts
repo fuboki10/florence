@@ -33,12 +33,10 @@ export class Profile {
 export class EditProfile {
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsAlpha()
   readonly firstName?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsAlpha()
   readonly lastName?: string;
 
   @ApiProperty({ required: false })
