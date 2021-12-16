@@ -24,11 +24,13 @@ export class LessonsService {
     return lesson;
   }
 
-  public async find(options: {
-    take?: number;
-    skip?: number;
-    where?: FindOneOptions<Lesson>;
-  }): Promise<Lesson[]> {
-    return this.lessonRepository.find(options);
+  public async find(
+    options: {
+      take?: number;
+      skip?: number;
+    },
+    where?: FindOneOptions<Lesson>,
+  ): Promise<Lesson[]> {
+    return this.lessonRepository.find({ ...options, ...where });
   }
 }

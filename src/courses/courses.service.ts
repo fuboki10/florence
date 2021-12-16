@@ -27,11 +27,17 @@ export class CoursesService {
     return course;
   }
 
-  public async find(options: {
-    take?: number;
-    skip?: number;
-    where?: FindOneOptions<Course>;
-  }): Promise<Course[]> {
-    return this.courseRepository.find({ ...options, relations: ['lessons'] });
+  public async find(
+    options: {
+      take?: number;
+      skip?: number;
+    },
+    where?: FindOneOptions<Course>,
+  ): Promise<Course[]> {
+    return this.courseRepository.find({
+      ...options,
+      ...where,
+      relations: ['lessons'],
+    });
   }
 }

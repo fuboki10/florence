@@ -16,6 +16,9 @@ export class CourseDto {
 
   @ApiProperty({ type: [LessonDto] })
   readonly lessons: LessonDto[];
+
+  @ApiProperty()
+  readonly instructor_id: string;
 }
 
 export class CreateCourseDto {

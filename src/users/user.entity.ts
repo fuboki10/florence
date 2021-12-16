@@ -3,10 +3,12 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 import * as bcrypt from 'bcryptjs';
+import { Course } from 'src/courses/course.entity';
 
 export enum Role {
   Admin = 'admin',
@@ -48,6 +50,9 @@ export class User {
 
   @Column({ default: Role.Learner })
   role: Role;
+
+  @ManyToOne((type) => Course, (course) => course.instructor)
+  createdCourses: Course[];
 
   constructor(data: Partial<User> = {}) {
     Object.assign(this, data);

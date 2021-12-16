@@ -15,6 +15,10 @@ import { JwtAuthGuard } from '../auth/jwt';
 import { CourseDto, CreateCourseDto } from './course.dto';
 import { CoursesService } from './courses.service';
 import { FindQuery } from '../common/find-query.dto';
+import { RolesGuard } from '../auth/roles.guard';
+import { Role } from '../users/user.entity';
+import { AuthUser } from '../users/user.decorator';
+import { Profile } from '../users/user.dto';
 
 @Controller('courses')
 @ApiTags('courses')
@@ -39,12 +43,13 @@ export class CoursesController {
   @Version('1')
   @ApiResponse({ type: CourseDto })
   @ApiBody({ type: CreateCourseDto })
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new RolesGuard([Role.Instructor, Role.Admin]))
   @ApiBearerAuth()
   @Post()
   public async createCourse(
     @Body() course: CreateCourseDto,
+    @AuthUser() user: Profile,
   ): Promise<CourseDto> {
-    return this.courseService.create(course);
+    return this.courseService.create({ ...course, instructor_id: user.id });
   }
 }
