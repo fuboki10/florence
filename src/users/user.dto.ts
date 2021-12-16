@@ -19,3 +19,28 @@ export class Profile {
   @ApiProperty()
   readonly role: Role;
 }
+
+export class EditProfile {
+  @ApiProperty()
+  readonly firstName?: string;
+
+  @ApiProperty()
+  readonly lastName?: string;
+
+  @ApiProperty()
+  readonly birthDate?: Date;
+
+  @ApiProperty()
+  readonly email?: string;
+
+  @ApiProperty()
+  readonly role?: Role;
+
+  @ApiProperty()
+  readonly oldPassword: string;
+
+  @ApiProperty()
+  readonly newPassword?: string;
+
+  public password: string;
+}
