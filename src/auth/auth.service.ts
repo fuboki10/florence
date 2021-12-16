@@ -44,6 +44,7 @@ export class AuthService {
       token_type: 'bearer',
       expires_in:
         this.configService.get<number>('JWT_EXPIRE_SECONDS') * MS_IN_SECONDS,
+      user,
     };
   }
 

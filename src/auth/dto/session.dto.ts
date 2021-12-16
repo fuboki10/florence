@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Profile } from '../../users/user.dto';
 
 export class Session {
   @ApiProperty()
@@ -9,4 +10,7 @@ export class Session {
 
   @ApiProperty()
   readonly expires_in: number;
+
+  @ApiProperty({ type: Profile })
+  readonly user: Profile;
 }

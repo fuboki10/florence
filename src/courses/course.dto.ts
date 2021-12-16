@@ -11,6 +11,9 @@ export class CourseDto {
   @ApiProperty()
   readonly title: string;
 
+  @ApiProperty()
+  readonly category: string;
+
   @ApiProperty({ type: [LessonDto] })
   readonly lessons: LessonDto[];
 }
@@ -21,4 +24,7 @@ export class CreateCourseDto {
 
   @ApiProperty()
   readonly title: string;
+
+  @ApiProperty()
+  readonly category: string;
 }

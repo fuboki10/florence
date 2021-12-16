@@ -15,6 +15,10 @@ export class Course {
   @IsNotEmpty({ message: 'Description is required' })
   description: string;
 
+  @Column()
+  @IsNotEmpty({ message: 'Category is required' })
+  category: string;
+
   @OneToMany((type) => Lesson, (lesson) => lesson.course)
   lessons: Lesson[];
 
