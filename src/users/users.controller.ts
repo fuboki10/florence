@@ -18,6 +18,8 @@ import { Role } from './user.entity';
 import { CoursesService } from '../courses/courses.service';
 import { FindQuery, ValidationPipe } from '../common';
 import { UsersService } from './users.service';
+import { Session } from '../auth/dto';
+import { AuthService } from '../auth/auth.service';
 
 @Controller('users')
 @ApiTags('users')
@@ -25,6 +27,7 @@ export class UsersController {
   constructor(
     private readonly courseService: CoursesService,
     private readonly usersService: UsersService,
+    private readonly authService: AuthService,
   ) {}
 
   @Version('1')
@@ -45,8 +48,9 @@ export class UsersController {
   public async editProfile(
     @AuthUser() user: Profile,
     @Body() data: EditProfile,
-  ): Promise<Profile> {
-    return this.usersService.update(user.id, data);
+  ): Promise<Session> {
+    const newUser = await this.usersService.update(user.id, data);
+    return this.authService.login(newUser);
   }
 
   @Version('1')
