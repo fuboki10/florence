@@ -3,7 +3,10 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
-import { QueryFailedExceptionFilter } from './common';
+import {
+  PasswordInvalidExceptionFilter,
+  QueryFailedExceptionFilter,
+} from './common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,7 +20,10 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
 
   /** Set Global filters */
-  app.useGlobalFilters(new QueryFailedExceptionFilter());
+  app.useGlobalFilters(
+    new QueryFailedExceptionFilter(),
+    new PasswordInvalidExceptionFilter(),
+  );
 
   /** Add Versioning for the app */
   app.enableVersioning({

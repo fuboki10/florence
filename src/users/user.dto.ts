@@ -1,4 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsAlpha,
+  IsDateString,
+  IsEmail,
+  IsEnum,
+  MinLength,
+  IsOptional,
+  IsDefined,
+  IsNotEmpty,
+} from 'class-validator';
 import { Role } from './user.entity';
 export class Profile {
   @ApiProperty()
@@ -21,24 +31,40 @@ export class Profile {
 }
 
 export class EditProfile {
-  @ApiProperty()
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsAlpha()
   readonly firstName?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsAlpha()
   readonly lastName?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsDateString()
   readonly birthDate?: Date;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsEmail()
   readonly email?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsEnum(Role)
   readonly role?: Role;
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsDefined()
+  @MinLength(6)
   public password: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsDefined()
+  @MinLength(6)
   readonly newPassword?: string;
 }

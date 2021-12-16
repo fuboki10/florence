@@ -1,9 +1,6 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PasswordInvalidException } from '../common';
 import { FindOneOptions, Repository } from 'typeorm';
 import { EditProfile } from './user.dto';
 import { User } from './user.entity';
@@ -34,7 +31,7 @@ export class UsersService {
 
     // check if password is correct
     if (!(await user.checkPassword(data.password))) {
-      throw new UnauthorizedException('Invalid password!');
+      throw new PasswordInvalidException();
     }
 
     data.password = data.newPassword ?? data.password;
