@@ -43,7 +43,7 @@ export class UsersService {
 
     // update
     Object.keys(partialUser).forEach((key) => {
-      user[key] = partialUser[key] ?? user[key];
+      user[key] = partialUser[key] || user[key];
     });
 
     await this.userRepository.save(user);
