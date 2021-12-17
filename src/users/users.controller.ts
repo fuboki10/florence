@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RolesGuard } from '../auth/roles.guard';
-import { CourseDto } from '../courses/course.dto';
+import { CourseDto, SimpleCourseDto } from '../courses/course.dto';
 import { JwtAuthGuard } from '../auth/jwt';
 import { AuthUser } from './user.decorator';
 import {
@@ -74,6 +74,17 @@ export class UsersController {
     return this.courseService.find(query, {
       where: { instructor_id: user.id },
     });
+  }
+
+  @Version('1')
+  @ApiResponse({ type: [SimpleCourseDto] })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Get('me/library')
+  public async getEntrolledCourses(
+    @AuthUser() user: Profile,
+  ): Promise<SimpleCourseDto[]> {
+    return this.usersService.getEnrolledCourses(user.id);
   }
 
   @Version('1')

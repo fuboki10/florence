@@ -86,4 +86,14 @@ export class UsersService {
 
     this.userRepository.save(user, { listeners: false });
   }
+
+  public async getEnrolledCourses(id: number) {
+    const user = await this.findOne({
+      where: { id },
+    });
+
+    const courses = await user.enrolledCourses;
+
+    return courses;
+  }
 }

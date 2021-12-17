@@ -21,6 +21,23 @@ export class CourseDto {
   readonly instructor_id: number;
 }
 
+export class SimpleCourseDto {
+  @ApiProperty()
+  readonly id: number;
+
+  @ApiProperty()
+  readonly description: string;
+
+  @ApiProperty()
+  readonly title: string;
+
+  @ApiProperty()
+  readonly category: string;
+
+  @ApiProperty()
+  readonly instructor_id: number;
+}
+
 export class CreateCourseDto {
   @ApiProperty()
   readonly description: string;
