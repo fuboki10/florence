@@ -28,7 +28,7 @@ export class Course {
 
   @Column()
   @IsNotEmpty({ message: 'Instructor is required' })
-  instructor_id: string;
+  instructor_id: number;
 
   @OneToMany((type) => Lesson, (lesson) => lesson.course)
   lessons: Lesson[];

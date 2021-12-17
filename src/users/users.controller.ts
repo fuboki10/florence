@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -15,15 +17,15 @@ import { CourseDto } from '../courses/course.dto';
 import { JwtAuthGuard } from '../auth/jwt';
 import { AuthUser } from './user.decorator';
 import {
+  ChangeRole,
   EditProfile,
   GetUsersRequest,
   GetUsersResponse,
   Profile,
 } from './user.dto';
-import { User } from './user.entity';
 import { Role } from './role.enum';
 import { CoursesService } from '../courses/courses.service';
-import { FindQuery, ValidationPipe } from '../common';
+import { FindOneParams, FindQuery, ValidationPipe } from '../common';
 import { UsersService } from './users.service';
 import { Session } from '../auth/dto';
 import { AuthService } from '../auth/auth.service';
@@ -85,12 +87,14 @@ export class UsersController {
     @Body() getUsersRequest: GetUsersRequest,
     @Query() query: FindQuery,
   ): Promise<GetUsersResponse> {
+    // Get needed users
     const users = await this.usersService.find(query, {
       where: getUsersRequest.roles.map((role) => {
         return { role };
       }),
     });
 
+    // Group users by role
     const output: any = users.reduce(
       (result, currentValue) => {
         delete currentValue.password;
@@ -102,5 +106,19 @@ export class UsersController {
     );
 
     return output;
+  }
+
+  @Version('1')
+  @UsePipes(new ValidationPipe())
+  @UseGuards(JwtAuthGuard, new RolesGuard([Role.Admin]))
+  @ApiBearerAuth()
+  @ApiBody({ type: ChangeRole })
+  @ApiResponse({ type: Profile })
+  @Patch(':id/role')
+  public async changeRole(
+    @Param() params: FindOneParams,
+    @Body() changeRole: ChangeRole,
+  ): Promise<Profile> {
+    return this.usersService.updateRole(params.id, changeRole.role);
   }
 }

@@ -18,7 +18,7 @@ export class CourseDto {
   readonly lessons: LessonDto[];
 
   @ApiProperty()
-  readonly instructor_id: string;
+  readonly instructor_id: number;
 }
 
 export class CreateCourseDto {

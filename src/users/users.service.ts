@@ -2,8 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PasswordInvalidException } from '../common';
 import { FindOneOptions, Repository } from 'typeorm';
-import { EditProfile } from './user.dto';
+import { EditProfile, Profile } from './user.dto';
 import { User } from './user.entity';
+import { Role } from './role.enum';
 
 @Injectable()
 export class UsersService {
@@ -26,7 +27,7 @@ export class UsersService {
     return user;
   }
 
-  public async update(id: string, data: EditProfile): Promise<User> {
+  public async update(id: number, data: EditProfile): Promise<User> {
     const user = await this.findOne({ where: { id } });
 
     // check if password is correct
@@ -61,5 +62,17 @@ export class UsersService {
       ...options,
       ...where,
     });
+  }
+
+  public async updateRole(id: number, role: Role): Promise<Profile> {
+    const user = await this.findOne({ where: { id } });
+
+    user.role = role;
+
+    await this.userRepository.save(user, { listeners: false });
+
+    delete user.password;
+
+    return user;
   }
 }

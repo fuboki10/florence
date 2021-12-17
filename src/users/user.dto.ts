@@ -11,7 +11,7 @@ import {
 import { Role } from './role.enum';
 export class Profile {
   @ApiProperty()
-  readonly id: string;
+  readonly id: number;
 
   @ApiProperty()
   readonly firstName: string;
@@ -99,4 +99,10 @@ export class GetUsersResponse {
     },
   })
   readonly users: UsersRecord;
+}
+
+export class ChangeRole {
+  @ApiProperty({ required: true })
+  @IsEnum(Role)
+  readonly role: Role;
 }
