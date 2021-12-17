@@ -9,6 +9,7 @@ import {
 import { IsNotEmpty } from 'class-validator';
 import { Lesson } from '../lessons/lesson.entity';
 import { User } from '../users/user.entity';
+import { Thread } from 'src/threads/thread.entity';
 
 @Entity({ name: 'courses' })
 export class Course {
@@ -40,6 +41,9 @@ export class Course {
 
   @ManyToMany(() => User, (user) => user.enrolledCourses)
   students: Promise<User[]>;
+
+  @OneToMany(() => Thread, (thread) => thread.course)
+  threads: Promise<Thread[]>;
 
   constructor(data: Partial<Course> = {}) {
     Object.assign(this, data);

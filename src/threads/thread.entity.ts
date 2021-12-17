@@ -12,6 +12,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Course } from 'src/courses/course.entity';
 
 @Entity({ name: 'threads' })
 export class Thread {
@@ -37,9 +38,17 @@ export class Thread {
   @IsNotEmpty({ message: 'User is required' })
   userId: number;
 
-  @ManyToOne(() => User, (user) => user.replies, { cascade: true })
+  @Column()
+  @IsNotEmpty({ message: 'Course is required' })
+  courseId: number;
+
+  @ManyToOne(() => User, (user) => user.replies, { eager: true, cascade: true })
   @JoinColumn({ name: 'userId' })
   user: User;
+
+  @ManyToOne(() => User, (user) => user.replies, { cascade: true })
+  @JoinColumn({ name: 'courseId' })
+  course: Course;
 
   constructor(data: Partial<User> = {}) {
     Object.assign(this, data);

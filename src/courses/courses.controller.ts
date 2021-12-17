@@ -19,7 +19,9 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Role } from '../users/role.enum';
 import { AuthUser } from '../users/user.decorator';
 import { Profile } from '../users/user.dto';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
+import { ThreadsService } from '../threads/threads.service';
+import { CreateThreadDto, ThreadDto } from '../threads/thread.dto';
 
 @Controller('courses')
 @ApiTags('courses')
@@ -28,6 +30,7 @@ export class CoursesController {
   constructor(
     private readonly courseService: CoursesService,
     private readonly usersSerivce: UsersService,
+    private readonly threadsService: ThreadsService,
   ) {}
 
   @Version('1')
@@ -69,5 +72,23 @@ export class CoursesController {
       where: { id: params.id },
     });
     return this.usersSerivce.enrollInCourse(user.id, course);
+  }
+
+  @Version('1')
+  @UseGuards(JwtAuthGuard)
+  @ApiBody({ type: CreateThreadDto })
+  @ApiResponse({ type: ThreadDto })
+  @ApiBearerAuth()
+  @Post(':id/thread')
+  public async createThread(
+    @Param() params: FindOneParams,
+    @AuthUser() user: Profile,
+    @Body() threadData: CreateThreadDto,
+  ): Promise<ThreadDto> {
+    return this.threadsService.create({
+      ...threadData,
+      userId: user.id,
+      courseId: params.id,
+    });
   }
 }

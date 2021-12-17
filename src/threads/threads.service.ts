@@ -11,13 +11,14 @@ export class ThreadsService {
   ) {}
 
   public async create(data: Partial<Thread>): Promise<Thread> {
-    return this.threadRepository.save(new Thread(data));
+    const thread = await this.threadRepository.save(new Thread(data));
+    return this.findOne({ where: { id: thread.id } });
   }
 
   public async findOne(where: FindOneOptions<Thread>): Promise<Thread> {
     const thread = await this.threadRepository.findOne({
       ...where,
-      relations: ['users'],
+      relations: ['user'],
     });
 
     if (!thread) {
