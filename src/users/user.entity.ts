@@ -8,12 +8,14 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 import * as bcrypt from 'bcryptjs';
-import { Course } from 'src/courses/course.entity';
+import { Course } from '../courses/course.entity';
 import { Role } from './role.enum';
+import { Thread } from '../threads/thread.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -57,6 +59,9 @@ export class User {
   @ManyToMany(() => Course, (course) => course.students)
   @JoinTable()
   enrolledCourses: Promise<Course[]>;
+
+  @OneToMany(() => Thread, (thread) => thread.user)
+  replies: Thread[];
 
   public name: string;
 

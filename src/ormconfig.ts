@@ -1,7 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-console.log(process.env);
-
 export const pgConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -11,7 +9,7 @@ export const pgConfig: TypeOrmModuleOptions = {
   database: 'florence',
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
   synchronize: true,
-  migrations: [__dirname + '/**/*.migrations{.ts,.js}'],
+  migrations: ['dist/db/migrations/*.js'],
   cli: { migrationsDir: 'src/db/migrations' },
 };
 

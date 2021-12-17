@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CoursesModule } from './courses/courses.module';
 import { LessonsModule } from './lessons/lessons.module';
+import { ThreadsModule } from './threads/threads.module';
 import LogsMiddleware from './common/logs.middleware';
 
 @Module({
@@ -34,6 +35,7 @@ import LogsMiddleware from './common/logs.middleware';
     }),
     CoursesModule,
     LessonsModule,
+    ThreadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
