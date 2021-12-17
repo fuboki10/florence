@@ -72,6 +72,31 @@ export class GetUsersRequest {
   readonly roles: Role[] = [];
 }
 
+type UsersRecord = Record<Role, Profile>;
+
 export class GetUsersResponse {
-  readonly users: Record<Role, Profile>;
+  @ApiProperty({
+    type: 'object',
+    properties: {
+      admin: {
+        type: 'array',
+        items: {
+          $ref: '#/components/schemas/Profile',
+        },
+      },
+      instructor: {
+        type: 'array',
+        items: {
+          $ref: '#/components/schemas/Profile',
+        },
+      },
+      learner: {
+        type: 'array',
+        items: {
+          $ref: '#/components/schemas/Profile',
+        },
+      },
+    },
+  })
+  readonly users: UsersRecord;
 }

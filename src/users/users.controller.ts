@@ -79,6 +79,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard, new RolesGuard([Role.Admin]))
   @ApiBearerAuth()
   @ApiBody({ type: GetUsersRequest })
+  @ApiResponse({ type: GetUsersResponse })
   @Post()
   public async getUsers(
     @Body() getUsersRequest: GetUsersRequest,
