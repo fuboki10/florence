@@ -27,6 +27,9 @@ export class Profile {
 
   @ApiProperty()
   readonly role: Role;
+
+  @ApiProperty()
+  readonly name: string;
 }
 
 export class EditProfile {

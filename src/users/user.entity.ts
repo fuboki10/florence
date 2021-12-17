@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   BeforeInsert,
   BeforeUpdate,
   Column,
@@ -57,6 +58,8 @@ export class User {
   @JoinTable()
   enrolledCourses: Promise<Course[]>;
 
+  public name: string;
+
   constructor(data: Partial<User> = {}) {
     Object.assign(this, data);
   }
@@ -66,6 +69,11 @@ export class User {
   async hashPassword(): Promise<void> {
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(this.password, salt);
+  }
+
+  @AfterLoad()
+  getName() {
+    this.name = this.firstName + ' ' + this.lastName;
   }
 
   async checkPassword(plainPassword: string): Promise<boolean> {
