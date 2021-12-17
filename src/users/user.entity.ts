@@ -4,6 +4,8 @@ import {
   Column,
   Entity,
   Index,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -50,6 +52,10 @@ export class User {
 
   @ManyToOne((type) => Course, (course) => course.instructor)
   createdCourses: Course[];
+
+  @ManyToMany(() => Course, (course) => course.students)
+  @JoinTable()
+  enrolledCourses: Promise<Course[]>;
 
   constructor(data: Partial<User> = {}) {
     Object.assign(this, data);

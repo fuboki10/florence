@@ -5,6 +5,7 @@ import { FindOneOptions, Repository } from 'typeorm';
 import { EditProfile, Profile } from './user.dto';
 import { User } from './user.entity';
 import { Role } from './role.enum';
+import { Course } from '../courses/course.entity';
 
 @Injectable()
 export class UsersService {
@@ -74,5 +75,15 @@ export class UsersService {
     delete user.password;
 
     return user;
+  }
+
+  public async enrollInCourse(id: number, course: Course): Promise<void> {
+    const user = await this.findOne({
+      where: { id },
+    });
+
+    (await user.enrolledCourses).push(course);
+
+    this.userRepository.save(user, { listeners: false });
   }
 }

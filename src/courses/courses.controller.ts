@@ -19,12 +19,16 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Role } from '../users/role.enum';
 import { AuthUser } from '../users/user.decorator';
 import { Profile } from '../users/user.dto';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('courses')
 @ApiTags('courses')
 @UsePipes(new ValidationPipe())
 export class CoursesController {
-  constructor(private readonly courseService: CoursesService) {}
+  constructor(
+    private readonly courseService: CoursesService,
+    private readonly usersSerivce: UsersService,
+  ) {}
 
   @Version('1')
   @ApiResponse({ type: CourseDto })
@@ -51,5 +55,19 @@ export class CoursesController {
     @AuthUser() user: Profile,
   ): Promise<CourseDto> {
     return this.courseService.create({ ...course, instructor_id: user.id });
+  }
+
+  @Version('1')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Post(':id/enroll')
+  public async enrollInCourse(
+    @Param() params: FindOneParams,
+    @AuthUser() user: Profile,
+  ): Promise<void> {
+    const course = await this.courseService.findOne({
+      where: { id: params.id },
+    });
+    return this.usersSerivce.enrollInCourse(user.id, course);
   }
 }
