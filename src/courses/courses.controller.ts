@@ -16,7 +16,7 @@ import { CourseDto, CreateCourseDto } from './course.dto';
 import { CoursesService } from './courses.service';
 import { FindQuery } from '../common/find-query.dto';
 import { RolesGuard } from '../auth/roles.guard';
-import { Role } from '../users/user.entity';
+import { Role } from '../users/role.enum';
 import { AuthUser } from '../users/user.decorator';
 import { Profile } from '../users/user.dto';
 

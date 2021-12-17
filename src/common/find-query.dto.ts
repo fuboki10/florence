@@ -6,11 +6,11 @@ export class FindQuery {
     default: 50,
   })
   @IsNumberString()
-  take: number;
+  readonly take: number = 50;
 
   @ApiProperty({
     default: 0,
   })
   @IsNumberString()
-  skip: number;
+  readonly skip: number = 0;
 }

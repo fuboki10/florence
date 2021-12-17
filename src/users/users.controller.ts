@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Post,
   Put,
   Query,
   UseGuards,
@@ -13,8 +14,14 @@ import { RolesGuard } from '../auth/roles.guard';
 import { CourseDto } from '../courses/course.dto';
 import { JwtAuthGuard } from '../auth/jwt';
 import { AuthUser } from './user.decorator';
-import { EditProfile, Profile } from './user.dto';
-import { Role } from './user.entity';
+import {
+  EditProfile,
+  GetUsersRequest,
+  GetUsersResponse,
+  Profile,
+} from './user.dto';
+import { User } from './user.entity';
+import { Role } from './role.enum';
 import { CoursesService } from '../courses/courses.service';
 import { FindQuery, ValidationPipe } from '../common';
 import { UsersService } from './users.service';
@@ -65,5 +72,34 @@ export class UsersController {
     return this.courseService.find(query, {
       where: { instructor_id: user.id },
     });
+  }
+
+  @Version('1')
+  @UsePipes(new ValidationPipe())
+  @UseGuards(JwtAuthGuard, new RolesGuard([Role.Admin]))
+  @ApiBearerAuth()
+  @ApiBody({ type: GetUsersRequest })
+  @Post()
+  public async getUsers(
+    @Body() getUsersRequest: GetUsersRequest,
+    @Query() query: FindQuery,
+  ): Promise<GetUsersResponse> {
+    const users = await this.usersService.find(query, {
+      where: getUsersRequest.roles.map((role) => {
+        return { role };
+      }),
+    });
+
+    const output: any = users.reduce(
+      (result, currentValue) => {
+        delete currentValue.password;
+        (result.users[currentValue['role']] =
+          result.users[currentValue['role']] || []).push(currentValue);
+        return result;
+      },
+      { users: {} },
+    );
+
+    return output;
   }
 }

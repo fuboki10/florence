@@ -49,4 +49,17 @@ export class UsersService {
 
     return user;
   }
+
+  public async find(
+    options: {
+      take?: number;
+      skip?: number;
+    },
+    where?: FindOneOptions<User>,
+  ): Promise<User[]> {
+    return this.userRepository.find({
+      ...options,
+      ...where,
+    });
+  }
 }

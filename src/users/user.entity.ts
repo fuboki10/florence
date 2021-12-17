@@ -3,18 +3,14 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 import * as bcrypt from 'bcryptjs';
 import { Course } from 'src/courses/course.entity';
-
-export enum Role {
-  Admin = 'admin',
-  Learner = 'learner',
-  Instructor = 'instructor',
-}
+import { Role } from './role.enum';
 
 @Entity({ name: 'users' })
 export class User {
@@ -49,6 +45,7 @@ export class User {
   email: string;
 
   @Column({ default: Role.Learner })
+  @Index()
   role: Role;
 
   @ManyToOne((type) => Course, (course) => course.instructor)

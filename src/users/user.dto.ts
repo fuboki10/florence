@@ -8,7 +8,7 @@ import {
   IsDefined,
   IsNotEmpty,
 } from 'class-validator';
-import { Role } from './user.entity';
+import { Role } from './role.enum';
 export class Profile {
   @ApiProperty()
   readonly id: string;
@@ -64,4 +64,14 @@ export class EditProfile {
   @IsDefined()
   @MinLength(6)
   readonly newPassword?: string;
+}
+
+export class GetUsersRequest {
+  @ApiProperty({ required: true })
+  @IsEnum(Role, { each: true })
+  readonly roles: Role[] = [];
+}
+
+export class GetUsersResponse {
+  readonly users: Record<Role, Profile>;
 }

@@ -8,7 +8,7 @@ import {
   IsAlpha,
   IsEnum,
 } from 'class-validator';
-import { Role } from '../../users/user.entity';
+import { Role } from '../../users/role.enum';
 
 export class SignUp {
   @ApiProperty({ required: true })
