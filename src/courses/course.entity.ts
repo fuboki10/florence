@@ -10,7 +10,7 @@ import {
 import { IsNotEmpty } from 'class-validator';
 import { Lesson } from '../lessons/lesson.entity';
 import { User } from '../users/user.entity';
-import { Thread } from 'src/threads/thread.entity';
+import { Thread } from '../threads/thread.entity';
 
 @Entity({ name: 'courses' })
 export class Course {

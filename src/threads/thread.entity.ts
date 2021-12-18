@@ -13,7 +13,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Course } from 'src/courses/course.entity';
+import { Course } from '../courses/course.entity';
 
 @Entity({ name: 'threads' })
 export class Thread {
