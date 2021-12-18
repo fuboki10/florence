@@ -9,6 +9,7 @@ import { CoursesModule } from './courses/courses.module';
 import { LessonsModule } from './lessons/lessons.module';
 import { ThreadsModule } from './threads/threads.module';
 import LogsMiddleware from './common/logs.middleware';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -16,6 +17,9 @@ import LogsMiddleware from './common/logs.middleware';
       isGlobal: true,
       ignoreEnvFile: false,
       envFilePath: `${process.env.PWD}/.${process.env.NODE_ENV}.env`,
+    }),
+    MulterModule.register({
+      dest: './files',
     }),
     AuthModule,
     UsersModule,

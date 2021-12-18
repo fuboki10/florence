@@ -41,6 +41,10 @@ export class Profile {
 
   @Exclude()
   readonly password: string;
+
+  @ApiProperty()
+  @Expose()
+  readonly avatar: string;
 }
 
 export class EditProfile {

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -7,11 +8,20 @@ import {
   Post,
   Put,
   Query,
+  Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   Version,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { RolesGuard } from '../auth/roles.guard';
 import { CourseDto, SimpleCourseDto } from '../courses/course.dto';
 import { JwtAuthGuard } from '../auth/jwt';
@@ -25,10 +35,19 @@ import {
 } from './user.dto';
 import { Role } from './role.enum';
 import { CoursesService } from '../courses/courses.service';
-import { FindOneParams, FindQuery, ValidationPipe } from '../common';
+import {
+  FindOneParams,
+  FindQuery,
+  ValidationPipe,
+  editFileName,
+  imageFileFilter,
+  uploadFile,
+} from '../common';
 import { UsersService } from './users.service';
 import { Session } from '../auth/dto';
 import { AuthService } from '../auth/auth.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 @Controller('users')
 @ApiTags('users')
@@ -131,5 +150,38 @@ export class UsersController {
     @Body() changeRole: ChangeRole,
   ): Promise<Profile> {
     return this.usersService.updateRole(params.id, changeRole.role);
+  }
+
+  @Version('1')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @uploadFile('image')
+  @ApiResponse({ type: Profile })
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './files',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  @Post('me/avatar')
+  public async uploadAvatar(
+    @Req() req,
+    @UploadedFile() file: Express.Multer.File,
+    @AuthUser() user: Profile,
+  ): Promise<Profile> {
+    if (!file || req.fileValidationError) {
+      throw new BadRequestException(
+        'Invalid File Provided, [image files allowed]',
+      );
+    }
+
+    return this.usersService.updateAvatar(
+      user.id,
+      req.headers.host + '/api/' + file.path,
+    );
   }
 }

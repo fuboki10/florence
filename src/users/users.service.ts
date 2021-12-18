@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PasswordInvalidException } from '../common';
+import { deleteFileIfExists, PasswordInvalidException } from '../common';
 import { FindOneOptions, Repository } from 'typeorm';
 import { EditProfile, Profile } from './user.dto';
 import { User } from './user.entity';
 import { Role } from './role.enum';
 import { Course } from '../courses/course.entity';
+import { join } from 'path';
 
 @Injectable()
 export class UsersService {
@@ -103,5 +104,28 @@ export class UsersService {
     const courses = await user.enrolledCourses;
 
     return courses;
+  }
+
+  public async updateAvatar(id: number, avatar: string): Promise<Profile> {
+    const user = await this.findOne({ where: { id } });
+
+    if (user.avatar) {
+      const parameters = user.avatar.split('/');
+      const path = join(
+        __dirname,
+        '/../../',
+        parameters[parameters.length - 2],
+        parameters[parameters.length - 1],
+      );
+      await deleteFileIfExists(path);
+    }
+
+    user.avatar = avatar;
+
+    await this.userRepository.save(user, { listeners: false });
+
+    delete user.password;
+
+    return user;
   }
 }

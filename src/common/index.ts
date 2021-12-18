@@ -4,3 +4,5 @@ export * from './find-query.dto';
 export * from './typeorm.filter';
 export * from './custom.exceptions';
 export * from './logs.middleware';
+export * from './file.upload';
+export * from './utils';

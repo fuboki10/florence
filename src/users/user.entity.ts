@@ -7,7 +7,6 @@ import {
   Index,
   JoinTable,
   ManyToMany,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -15,6 +14,7 @@ import * as bcrypt from 'bcryptjs';
 import { Course } from '../courses/course.entity';
 import { Role } from './role.enum';
 import { Thread } from '../threads/thread.entity';
+import { IsOptional, IsUrl } from 'class-validator';
 
 @Entity({ name: 'users' })
 export class User {
@@ -41,6 +41,11 @@ export class User {
   @Column({ default: Role.Learner })
   @Index()
   role: Role;
+
+  @Column({ nullable: true })
+  @IsOptional()
+  @IsUrl()
+  avatar: string;
 
   @OneToMany((type) => Course, (course) => course.instructor)
   createdCourses: Course[];
