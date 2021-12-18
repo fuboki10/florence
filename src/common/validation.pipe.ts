@@ -21,7 +21,10 @@ export class ValidationPipe implements PipeTransform<any> {
       return value;
     }
 
-    const object = plainToClass(metatype, value);
+    const object = plainToClass(metatype, value, {
+      excludeExtraneousValues: true,
+    });
+
     const errors = await validate(object);
     if (errors.length > 0) {
       throw new HttpException(
@@ -33,7 +36,7 @@ export class ValidationPipe implements PipeTransform<any> {
         HttpStatus.BAD_REQUEST,
       );
     }
-    return value;
+    return object;
   }
 
   private buildError(errors) {

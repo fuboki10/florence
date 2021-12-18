@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PasswordInvalidException } from '../common';
-import { FindOneOptions, Repository } from 'typeorm';
+import { FindOneOptions, getConnection, Repository } from 'typeorm';
 import { EditProfile, Profile } from './user.dto';
 import { User } from './user.entity';
 import { Role } from './role.enum';
@@ -19,7 +19,15 @@ export class UsersService {
   }
 
   public async findOne(where: FindOneOptions<User>): Promise<User> {
-    const user = await this.userRepository.findOne(where);
+    const query = this.userRepository
+      .createQueryBuilder('user')
+      .addSelect('user.password');
+
+    Object.entries(where.where).forEach((e) => {
+      query.where(`user.${e[0]} = :val`, { val: e[1] });
+    });
+
+    const user = await query.getOne();
 
     if (!user) {
       throw new NotFoundException('User is not Found!');
