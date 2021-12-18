@@ -11,15 +11,23 @@ export class ThreadsService {
   ) {}
 
   public async create(data: Partial<Thread>): Promise<Thread> {
+    console.log(data);
+
     const thread = await this.threadRepository.save(new Thread(data));
     return this.findOne({ where: { id: thread.id } });
   }
 
+  public async createReply(
+    id: number,
+    userId: number,
+    data: Partial<Thread>,
+  ): Promise<Thread> {
+    const parentThread = await this.findOne({ where: { id } });
+    return parentThread;
+  }
+
   public async findOne(where: FindOneOptions<Thread>): Promise<Thread> {
-    const thread = await this.threadRepository.findOne({
-      ...where,
-      relations: ['user'],
-    });
+    const thread = await this.threadRepository.findOne(where);
 
     if (!thread) {
       throw new NotFoundException('thread is not Found!');
@@ -38,7 +46,7 @@ export class ThreadsService {
     return this.threadRepository.find({
       ...options,
       ...where,
-      relations: ['users'],
+      relations: ['user'],
     });
   }
 }
