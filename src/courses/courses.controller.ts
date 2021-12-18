@@ -37,7 +37,16 @@ export class CoursesController {
   @ApiResponse({ type: CourseDto })
   @Get(':id')
   public async getCourse(@Param() params: FindOneParams): Promise<CourseDto> {
-    return this.courseService.findOne({ where: { id: params.id } });
+    const course = await this.courseService.findOne({
+      where: { id: params.id },
+    });
+
+    course.threads = await this.threadsService.find(
+      {},
+      { where: { courseId: course.id, parent: null } },
+    );
+
+    return course;
   }
 
   @Version('1')
@@ -79,7 +88,7 @@ export class CoursesController {
   @ApiBody({ type: CreateThreadDto })
   @ApiResponse({ type: ThreadDto })
   @ApiBearerAuth()
-  @Post(':id/thread')
+  @Post(':id/threads')
   public async createThread(
     @Param() params: FindOneParams,
     @AuthUser() user: Profile,

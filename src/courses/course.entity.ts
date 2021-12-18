@@ -3,6 +3,7 @@ import {
   Entity,
   JoinColumn,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -35,7 +36,7 @@ export class Course {
   @OneToMany((type) => Lesson, (lesson) => lesson.course)
   lessons: Lesson[];
 
-  @OneToMany((type) => User, (instructor) => instructor.createdCourses)
+  @ManyToOne((type) => User, (instructor) => instructor.createdCourses)
   @JoinColumn({ name: 'instructor_id' })
   instructor: User;
 
@@ -43,7 +44,7 @@ export class Course {
   students: Promise<User[]>;
 
   @OneToMany(() => Thread, (thread) => thread.course)
-  threads: Promise<Thread[]>;
+  threads: Thread[];
 
   constructor(data: Partial<Course> = {}) {
     Object.assign(this, data);

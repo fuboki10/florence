@@ -1,8 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumberString } from 'class-validator';
+import { Expose, Type } from 'class-transformer';
+import { IsInt } from 'class-validator';
 
 export class FindOneParams {
-  @ApiProperty({ type: Number })
-  @IsNumberString()
-  id: number;
+  @ApiProperty()
+  @IsInt()
+  @Type(() => Number)
+  @Expose()
+  readonly id: number;
 }

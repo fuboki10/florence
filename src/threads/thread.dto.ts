@@ -57,4 +57,8 @@ export class ThreadDto {
   @Type(() => Profile)
   @Expose()
   readonly user: Profile;
+
+  @ApiProperty({ required: false, type: [ThreadDto] })
+  @Expose()
+  readonly replies: ThreadDto[];
 }

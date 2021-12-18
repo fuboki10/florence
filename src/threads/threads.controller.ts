@@ -41,6 +41,6 @@ export class ThreadsController {
   @ApiResponse({ type: [ThreadDto] })
   @Get()
   public async getThreads(@Query() query: FindQuery): Promise<ThreadDto[]> {
-    return this.threadsService.find(query);
+    return this.threadsService.find(query, { where: { parent: null } });
   }
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { IsInt } from 'class-validator';
 
 export class FindQuery {
@@ -7,6 +7,7 @@ export class FindQuery {
     default: 50,
   })
   @IsInt()
+  @Expose()
   @Type(() => Number)
   readonly take: number = 50;
 
@@ -14,6 +15,7 @@ export class FindQuery {
     default: 0,
   })
   @IsInt()
+  @Expose()
   @Type(() => Number)
   readonly skip: number = 0;
 }

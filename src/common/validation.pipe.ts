@@ -23,6 +23,7 @@ export class ValidationPipe implements PipeTransform<any> {
 
     const object = plainToClass(metatype, value, {
       excludeExtraneousValues: true,
+      exposeDefaultValues: true,
     });
 
     const errors = await validate(object);

@@ -42,7 +42,7 @@ export class User {
   @Index()
   role: Role;
 
-  @ManyToOne((type) => Course, (course) => course.instructor)
+  @OneToMany((type) => Course, (course) => course.instructor)
   createdCourses: Course[];
 
   @ManyToMany(() => Course, (course) => course.students)

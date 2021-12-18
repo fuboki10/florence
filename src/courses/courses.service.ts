@@ -17,7 +17,7 @@ export class CoursesService {
   public async findOne(where: FindOneOptions<Course>): Promise<Course> {
     const course = await this.courseRepository.findOne({
       ...where,
-      relations: ['lessons'],
+      relations: ['lessons', 'instructor'],
     });
 
     if (!course) {
@@ -37,7 +37,6 @@ export class CoursesService {
     return this.courseRepository.find({
       ...options,
       ...where,
-      relations: ['lessons'],
     });
   }
 }

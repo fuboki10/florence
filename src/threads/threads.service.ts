@@ -13,7 +13,14 @@ export class ThreadsService {
   public async create(data: Partial<Thread>): Promise<Thread> {
     console.log(data);
 
-    const thread = await this.threadRepository.save(new Thread(data));
+    let thread: Thread;
+    try {
+      thread = await this.threadRepository.save(new Thread(data));
+    } catch (error) {
+      console.log('Save!!!');
+      console.log(error);
+    }
+
     return this.findOne({ where: { id: thread.id } });
   }
 
@@ -23,7 +30,12 @@ export class ThreadsService {
     data: Partial<Thread>,
   ): Promise<Thread> {
     const parentThread = await this.findOne({ where: { id } });
-    return parentThread;
+    return this.create({
+      ...data,
+      userId,
+      parent: parentThread,
+      courseId: parentThread.courseId,
+    });
   }
 
   public async findOne(where: FindOneOptions<Thread>): Promise<Thread> {
@@ -46,7 +58,7 @@ export class ThreadsService {
     return this.threadRepository.find({
       ...options,
       ...where,
-      relations: ['user'],
+      relations: ['user', 'replies'],
     });
   }
 }

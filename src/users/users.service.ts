@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PasswordInvalidException } from '../common';
-import { FindOneOptions, getConnection, Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { EditProfile, Profile } from './user.dto';
 import { User } from './user.entity';
 import { Role } from './role.enum';
