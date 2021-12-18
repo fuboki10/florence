@@ -62,11 +62,14 @@ export class SimpleCourseDto {
 
 export class CreateCourseDto {
   @ApiProperty()
+  @Expose()
   readonly description: string;
 
   @ApiProperty()
+  @Expose()
   readonly title: string;
 
   @ApiProperty()
+  @Expose()
   readonly category: string;
 }
