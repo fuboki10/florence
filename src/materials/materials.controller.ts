@@ -1,15 +1,41 @@
-import { Body, Controller, Post, UseGuards, Version } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Param,
+  Post,
+  Req,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+  UsePipes,
+  Version,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import {
+  editFileName,
+  FindOneParams,
+  pdfFileFilter,
+  uploadFile,
+  ValidationPipe,
+} from '../common';
 import { JwtAuthGuard } from '../auth/jwt';
 import { RolesGuard } from '../auth/roles.guard';
 import { Role } from '../users/role.enum';
-import { AuthUser } from '../users/user.decorator';
-import { Profile } from '../users/user.dto';
 import { MaterialDto, CreateMaterialDto } from './material.dto';
 import { MaterialsService } from './materials.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 @Controller('materials')
 @ApiTags('materials')
+@UsePipes(new ValidationPipe())
 export class MaterialsController {
   constructor(private readonly materialsService: MaterialsService) {}
 
@@ -23,5 +49,38 @@ export class MaterialsController {
     @Body() material: CreateMaterialDto,
   ): Promise<MaterialDto> {
     return this.materialsService.create(material);
+  }
+
+  @Version('1')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @uploadFile('pdf')
+  @ApiResponse({ type: MaterialDto })
+  @UseInterceptors(
+    FileInterceptor('pdf', {
+      storage: diskStorage({
+        destination: './files',
+        filename: editFileName,
+      }),
+      fileFilter: pdfFileFilter,
+    }),
+  )
+  @Post(':id/pdf')
+  public async uploadPdf(
+    @Req() req,
+    @UploadedFile() file: Express.Multer.File,
+    @Param() params: FindOneParams,
+  ): Promise<MaterialDto> {
+    if (!file || req.fileValidationError) {
+      throw new BadRequestException(
+        'Invalid File Provided, [pdf files allowed]',
+      );
+    }
+
+    return this.materialsService.updateUrl(
+      params.id,
+      req.headers.host + '/api/' + file.path,
+    );
   }
 }
