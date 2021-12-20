@@ -10,6 +10,7 @@ import { LessonsModule } from './lessons/lessons.module';
 import { ThreadsModule } from './threads/threads.module';
 import LogsMiddleware from './common/logs.middleware';
 import { MulterModule } from '@nestjs/platform-express';
+import { MaterialsModule } from './materials/materials.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { MulterModule } from '@nestjs/platform-express';
     CoursesModule,
     LessonsModule,
     ThreadsModule,
+    MaterialsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
