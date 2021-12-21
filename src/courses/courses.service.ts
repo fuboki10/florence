@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../users/user.entity';
 import { Repository, FindOneOptions } from 'typeorm';
 import { Course } from './course.entity';
 
@@ -33,10 +34,26 @@ export class CoursesService {
       skip?: number;
     },
     where?: FindOneOptions<Course>,
+    user?: User,
   ): Promise<Course[]> {
-    return this.courseRepository.find({
+    const courses: Course[] = await this.courseRepository.find({
       ...options,
       ...where,
     });
+
+    if (user) {
+      const enrolledCourses: Course[] = await user.enrolledCourses;
+
+      const enrolledCoursesIds: number[] = enrolledCourses.map(
+        (course) => course.id,
+      );
+
+      // remove entrolled courses
+      return courses.filter(
+        (course) => !enrolledCoursesIds.includes(course.id),
+      );
+    }
+
+    return courses;
   }
 }

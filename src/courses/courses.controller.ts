@@ -23,6 +23,7 @@ import { UsersService } from '../users/users.service';
 import { ThreadsService } from '../threads/threads.service';
 import { CreateThreadDto, ThreadDto } from '../threads/thread.dto';
 import { ILike } from 'typeorm';
+import { User } from '../users/user.entity';
 
 @Controller('courses')
 @ApiTags('courses')
@@ -52,11 +53,20 @@ export class CoursesController {
 
   @Version('1')
   @ApiResponse({ type: [CourseDto] })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Get()
-  public async get(@Query() query: FindQuery): Promise<CourseDto[]> {
-    return this.courseService.find(query, {
-      where: { title: ILike(`${query.q}%`) },
-    });
+  public async get(
+    @Query() query: FindQuery,
+    @AuthUser() user: User,
+  ): Promise<CourseDto[]> {
+    return this.courseService.find(
+      query,
+      {
+        where: { title: ILike(`${query.q}%`) },
+      },
+      user,
+    );
   }
 
   @Version('1')
