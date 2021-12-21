@@ -48,6 +48,7 @@ import { Session } from '../auth/dto';
 import { AuthService } from '../auth/auth.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { ILike } from 'typeorm';
 
 @Controller('users')
 @ApiTags('users')
@@ -119,9 +120,12 @@ export class UsersController {
   ): Promise<GetUsersResponse> {
     // Get needed users
     const users = await this.usersService.find(query, {
-      where: getUsersRequest.roles.map((role) => {
-        return { role };
-      }),
+      where: {
+        ...getUsersRequest.roles.map((role) => {
+          return { role };
+        }),
+        firstName: ILike(`${query.q}%`),
+      },
     });
 
     // Group users by role

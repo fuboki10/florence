@@ -22,6 +22,7 @@ import { Profile } from '../users/user.dto';
 import { UsersService } from '../users/users.service';
 import { ThreadsService } from '../threads/threads.service';
 import { CreateThreadDto, ThreadDto } from '../threads/thread.dto';
+import { ILike } from 'typeorm';
 
 @Controller('courses')
 @ApiTags('courses')
@@ -53,7 +54,9 @@ export class CoursesController {
   @ApiResponse({ type: [CourseDto] })
   @Get()
   public async get(@Query() query: FindQuery): Promise<CourseDto[]> {
-    return this.courseService.find(query);
+    return this.courseService.find(query, {
+      where: { title: ILike(`${query.q}%`) },
+    });
   }
 
   @Version('1')

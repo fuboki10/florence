@@ -16,6 +16,7 @@ import { FindOneParams, FindQuery, ValidationPipe } from '../common';
 import { AuthUser } from '../users/user.decorator';
 import { CreateThreadDto, ThreadDto } from './thread.dto';
 import { ThreadsService } from './threads.service';
+import { ILike } from 'typeorm';
 
 @Controller('threads')
 @ApiTags('threads')
@@ -41,6 +42,8 @@ export class ThreadsController {
   @ApiResponse({ type: [ThreadDto] })
   @Get()
   public async getThreads(@Query() query: FindQuery): Promise<ThreadDto[]> {
-    return this.threadsService.find(query, { where: { parent: null } });
+    return this.threadsService.find(query, {
+      where: { parent: null, title: ILike(`${query.q}%`) },
+    });
   }
 }

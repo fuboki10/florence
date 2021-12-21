@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { IsInt } from 'class-validator';
+import { IsInt, IsOptional, IsString } from 'class-validator';
 
 export class FindQuery {
   @ApiProperty({
@@ -18,4 +18,9 @@ export class FindQuery {
   @Expose()
   @Type(() => Number)
   readonly skip: number = 0;
+
+  @ApiProperty({ required: false, default: '' })
+  @IsString()
+  @Expose()
+  readonly q: string = '';
 }

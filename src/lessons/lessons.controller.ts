@@ -15,6 +15,7 @@ import { FindQuery } from '../common/find-query.dto';
 import { FindOneParams, ValidationPipe } from '../common';
 import { LessonDto, CreateLessonDto } from './lessons.dto';
 import { LessonsService } from './lessons.service';
+import { ILike } from 'typeorm';
 
 @Controller('lessons')
 @ApiTags('lessons')
@@ -33,7 +34,9 @@ export class LessonsController {
   @ApiResponse({ type: [LessonDto] })
   @Get()
   public async get(@Query() query: FindQuery): Promise<LessonDto[]> {
-    return this.lessonsService.find(query);
+    return this.lessonsService.find(query, {
+      where: { title: ILike(`${query.q}%`) },
+    });
   }
 
   @Version('1')
