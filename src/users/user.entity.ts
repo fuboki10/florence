@@ -50,10 +50,12 @@ export class User {
   )
   role: Role;
 
-  @Column({ nullable: true })
+  @Column({
+    nullable: true,
+    default: 'http://localhost:3000/api/files/default.png',
+  })
   @IsOptional()
   @IsUrl()
-  @Factory((faker: Faker.FakerStatic) => faker.internet.avatar())
   avatar: string;
 
   @OneToMany((type) => Course, (course) => course.instructor)
