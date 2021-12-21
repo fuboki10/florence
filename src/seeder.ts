@@ -1,6 +1,14 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { seeder } from 'nestjs-seeder';
+import { Course } from './courses/course.entity';
+import { CoursesSeeder } from './courses/courses.seeder';
+import { Lesson } from './lessons/lesson.entity';
+import { LessonsSeeder } from './lessons/lessons.seeder';
+import { Material } from './materials/material.entity';
+import { MaterialsSeeder } from './materials/materials.seeder';
+import { Thread } from './threads/thread.entity';
+import { ThreadsSeeder } from './threads/threads.seeder';
 import { User } from './users/user.entity';
 import { UsersSeeder } from './users/users.seeder';
 
@@ -25,6 +33,12 @@ seeder({
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Material, Lesson, Course, Thread]),
   ],
-}).run([UsersSeeder]);
+}).run([
+  UsersSeeder,
+  CoursesSeeder,
+  LessonsSeeder,
+  MaterialsSeeder,
+  ThreadsSeeder,
+]);
