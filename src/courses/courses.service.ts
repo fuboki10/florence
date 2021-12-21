@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../users/user.entity';
-import { Repository, FindOneOptions } from 'typeorm';
+import { Repository, FindOneOptions, getConnection } from 'typeorm';
 import { Course } from './course.entity';
+import { CourseLibrary } from './course.dto';
 
 @Injectable()
 export class CoursesService {
@@ -55,5 +56,27 @@ export class CoursesService {
     }
 
     return courses;
+  }
+
+  public async getCreatedCourses(
+    options: {
+      take?: number;
+      skip?: number;
+    },
+    userId: number,
+  ): Promise<CourseLibrary[]> {
+    return getConnection()
+      .createQueryRunner()
+      .query(
+        `
+    select courses.*, cast(count(distinct lessons.id) as integer) as lessons from courses 
+    inner join lessons on lessons.course_id = courses.id
+    where courses.instructor_id = $1
+    group by courses.id
+    limit $2
+    offset $3
+    `,
+        [userId, options.take, options.skip],
+      );
   }
 }

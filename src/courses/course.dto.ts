@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { ThreadDto } from '../threads/thread.dto';
 import { LessonDto } from '../lessons/lessons.dto';
 import { Profile } from '../users/user.dto';
@@ -77,4 +77,31 @@ export class CreateCourseDto {
   @ApiProperty()
   @Expose()
   readonly category: string;
+}
+
+export class CourseLibrary {
+  @ApiProperty()
+  @Expose()
+  readonly id: number;
+
+  @ApiProperty()
+  @Expose()
+  readonly description: string;
+
+  @ApiProperty()
+  @Expose()
+  readonly title: string;
+
+  @ApiProperty()
+  @Expose()
+  readonly category: string;
+
+  @ApiProperty()
+  @Expose()
+  readonly instructor_id: number;
+
+  @ApiProperty()
+  @Expose()
+  @Type(() => Number)
+  readonly lessons: number;
 }

@@ -23,7 +23,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { RolesGuard } from '../auth/roles.guard';
-import { CourseDto, SimpleCourseDto } from '../courses/course.dto';
+import {
+  CourseDto,
+  CourseLibrary,
+  SimpleCourseDto,
+} from '../courses/course.dto';
 import { JwtAuthGuard } from '../auth/jwt';
 import { AuthUser } from './user.decorator';
 import {
@@ -84,20 +88,20 @@ export class UsersController {
 
   @Version('1')
   @ApiResponse({ type: [CourseDto] })
+  @UsePipes(new ValidationPipe())
   @UseGuards(JwtAuthGuard, new RolesGuard([Role.Instructor, Role.Admin]))
   @ApiBearerAuth()
   @Get('me/courses')
   public async getCreatedCourses(
     @Query() query: FindQuery,
     @AuthUser() user: Profile,
-  ): Promise<CourseDto[]> {
-    return this.courseService.find(query, {
-      where: { instructor_id: user.id },
-    });
+  ): Promise<CourseLibrary[]> {
+    return this.courseService.getCreatedCourses(query, user.id);
   }
 
   @Version('1')
   @ApiResponse({ type: [SimpleCourseDto] })
+  @UsePipes(new ValidationPipe())
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Get('me/library')
