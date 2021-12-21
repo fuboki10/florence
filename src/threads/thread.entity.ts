@@ -55,7 +55,7 @@ export class Thread {
   )
   courseId: number;
 
-  @ManyToOne(() => User, (user) => user.replies, { cascade: true })
+  @ManyToOne(() => User, (user) => user.replies, { cascade: true, eager: true })
   @JoinColumn({ name: 'userId' })
   user: User;
 
