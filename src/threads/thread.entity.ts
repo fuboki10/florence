@@ -14,6 +14,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Course } from '../courses/course.entity';
+import { Factory } from 'nestjs-seeder';
 
 @Entity({ name: 'threads' })
 export class Thread {
@@ -23,24 +24,29 @@ export class Thread {
   @Column()
   @IsString()
   @IsNotEmpty({ message: 'Text is required' })
+  @Factory((faker: Faker.FakerStatic) => faker.random.words(10))
   text: string;
 
   @Column()
   @IsDateString()
   @IsNotEmpty({ message: 'Date is required' })
+  @Factory((faker: Faker.FakerStatic) => faker.date.past(1))
   date: string;
 
   @Column()
   @IsMilitaryTime()
   @IsNotEmpty({ message: 'Time is required' })
+  @Factory((faker: Faker.FakerStatic) => faker.time.recent())
   time: string;
 
   @Column()
   @IsNotEmpty({ message: 'User is required' })
+  @Factory((faker: Faker.FakerStatic) => faker.datatype.number(10))
   userId: number;
 
   @Column()
   @IsNotEmpty({ message: 'Course is required' })
+  @Factory((faker: Faker.FakerStatic) => faker.datatype.number(50))
   courseId: number;
 
   @ManyToOne(() => User, (user) => user.replies, { cascade: true })
