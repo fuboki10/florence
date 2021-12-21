@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsOptional, IsUrl } from 'class-validator';
-import { Course } from 'src/courses/course.entity';
-import { User } from 'src/users/user.entity';
+import { Factory } from 'nestjs-seeder';
+import { Course } from '../courses/course.entity';
 import {
   Column,
   Entity,
@@ -16,15 +16,18 @@ export class Material {
 
   @Column()
   @IsNotEmpty({ message: 'Title is required' })
+  @Factory((faker: Faker.FakerStatic) => faker.name.title())
   title: string;
 
   @Column({ nullable: true })
   @IsOptional()
   @IsUrl()
+  @Factory('https://www.theseus.fi/bitstream/handle/10024/353200/Pham_Duc.pdf')
   url: string;
 
   @Column()
   @IsNotEmpty({ message: 'Course is required' })
+  @Factory((faker: Faker.FakerStatic) => faker.datatype.number(50))
   courseId: number;
 
   @ManyToOne(() => Course, (course) => course.materials, { cascade: true })
