@@ -7,6 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import { Factory } from 'nestjs-seeder';
 
 @Entity({ name: 'lessons' })
 export class Lesson {
@@ -15,19 +16,23 @@ export class Lesson {
 
   @Column()
   @IsNotEmpty({ message: 'Title is required' })
+  @Factory((faker: Faker.FakerStatic) => faker.name.title())
   title: string;
 
   @Column()
   @IsNotEmpty({ message: 'Description is required' })
+  @Factory((faker: Faker.FakerStatic) => faker.name.jobDescriptor())
   description: string;
 
   @Column()
   @IsNotEmpty({ message: 'Url is required' })
   @IsUrl()
+  @Factory('https://www.youtube.com/watch?v=PQZhN65vq9E')
   url: string;
 
   @Column()
   @IsNotEmpty({ message: 'Course is required' })
+  @Factory((faker: Faker.FakerStatic) => faker.datatype.number(50))
   course_id: number;
 
   @ManyToOne((type) => Course, (course) => course.lessons, {

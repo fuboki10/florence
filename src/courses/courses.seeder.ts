@@ -11,7 +11,7 @@ export class CoursesSeeder implements Seeder {
   ) {}
 
   async seed(): Promise<any> {
-    // Generate 10 Courses.
+    // Generate 50 Courses.
     const courses = DataFactory.createForClass(Course).generate(50);
 
     // Insert into the database.
