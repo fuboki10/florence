@@ -106,9 +106,10 @@ export class UsersController {
   @ApiBearerAuth()
   @Get('me/library')
   public async getEntrolledCourses(
+    @Query() query: FindQuery,
     @AuthUser() user: Profile,
-  ): Promise<SimpleCourseDto[]> {
-    return this.usersService.getEnrolledCourses(user.id);
+  ): Promise<CourseLibrary[]> {
+    return this.courseService.getEnrolledCourses(query, user.id);
   }
 
   @Version('1')

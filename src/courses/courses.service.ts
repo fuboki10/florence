@@ -79,4 +79,27 @@ export class CoursesService {
         [userId, options.take, options.skip],
       );
   }
+
+  public async getEnrolledCourses(
+    options: {
+      take?: number;
+      skip?: number;
+    },
+    userId: number,
+  ): Promise<CourseLibrary[]> {
+    return getConnection()
+      .createQueryRunner()
+      .query(
+        `
+    select courses.*, cast(count(distinct lessons.id) as integer) as lessons from courses  
+    inner join lessons on lessons.course_id = courses.id
+    inner join users_enrolled_courses_courses on users_enrolled_courses_courses."coursesId" = courses.id 
+    where users_enrolled_courses_courses."usersId" = $1
+    group by courses.id
+    limit $2
+    offset $3
+    `,
+        [userId, options.take, options.skip],
+      );
+  }
 }
