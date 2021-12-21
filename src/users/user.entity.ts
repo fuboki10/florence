@@ -12,39 +12,48 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Course } from '../courses/course.entity';
-import { Role } from './role.enum';
+import { enumToArray, Role } from './role.enum';
 import { Thread } from '../threads/thread.entity';
 import { IsOptional, IsUrl } from 'class-validator';
-
+import { Factory } from 'nestjs-seeder';
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({ select: false })
+  @Factory('123123')
   password: string;
 
   @Column()
+  @Factory((faker: Faker.FakerStatic) => faker.name.findName())
   firstName: string;
 
   @Column()
+  @Factory((faker: Faker.FakerStatic) => faker.name.findName())
   lastName: string;
 
   @Column({
     type: 'date',
   })
+  @Factory((faker: Faker.FakerStatic) => faker.date.past(20))
   birthDate: Date;
 
   @Column({ unique: true })
+  @Factory((faker: Faker.FakerStatic) => faker.internet.email())
   email: string;
 
   @Column({ default: Role.Learner })
   @Index()
+  @Factory((faker: Faker.FakerStatic) =>
+    faker.random.arrayElement(enumToArray(Role)),
+  )
   role: Role;
 
   @Column({ nullable: true })
   @IsOptional()
   @IsUrl()
+  @Factory((faker: Faker.FakerStatic) => faker.internet.avatar())
   avatar: string;
 
   @OneToMany((type) => Course, (course) => course.instructor)

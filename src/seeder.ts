@@ -1,6 +1,8 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { seeder } from 'nestjs-seeder';
+import { User } from './users/user.entity';
+import { UsersSeeder } from './users/users.seeder';
 
 seeder({
   imports: [
@@ -23,6 +25,6 @@ seeder({
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([]),
+    TypeOrmModule.forFeature([User]),
   ],
-}).run([]);
+}).run([UsersSeeder]);
