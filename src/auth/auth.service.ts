@@ -35,7 +35,13 @@ export class AuthService {
   }
 
   public async login(user: Profile): Promise<Session> {
-    const payload = { email: user.email, sub: user.id };
+    const payload = {
+      email: user.email,
+      sub: user.id,
+      id: user.id,
+      name: user.name,
+      role: user.role,
+    };
     const token: string = this.jwtService.sign(payload);
 
     const MS_IN_SECONDS = 1000;

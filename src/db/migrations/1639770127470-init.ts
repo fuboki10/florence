@@ -2,7 +2,7 @@ import { User } from 'src/users/user.entity';
 import { getRepository, MigrationInterface, QueryRunner } from 'typeorm';
 import { UserSeed } from '../seeds/user.seed';
 
-export class users1639770127470 implements MigrationInterface {
+export class init1639770127470 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
       'DROP DATABASE IF EXISTS florence; CREATE DATABASE florence;',
