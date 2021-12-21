@@ -32,7 +32,13 @@ export class Course {
   @Column()
   @IsNotEmpty({ message: 'Category is required' })
   @Factory((faker: Faker.FakerStatic) =>
-    faker.random.arrayElement(['frameworks', 'languages', 'concepts']),
+    faker.random.arrayElement([
+      'frameworks',
+      'languages',
+      'techniques',
+      'testing',
+      'tooling',
+    ]),
   )
   category: string;
 
