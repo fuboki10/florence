@@ -32,7 +32,9 @@ export class Lesson {
 
   @Column()
   @IsNotEmpty({ message: 'Course is required' })
-  @Factory((faker: Faker.FakerStatic) => faker.datatype.number(50))
+  @Factory((faker: Faker.FakerStatic) =>
+    faker.random.number({ max: 50, min: 1 }),
+  )
   course_id: number;
 
   @ManyToOne((type) => Course, (course) => course.lessons, {

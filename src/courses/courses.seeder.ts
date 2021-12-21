@@ -15,7 +15,9 @@ export class CoursesSeeder implements Seeder {
     const courses = DataFactory.createForClass(Course).generate(50);
 
     // Insert into the database.
-    return this.course.save(courses.map((course) => new Course(course)));
+    return this.course
+      .save(courses.map((course) => new Course(course)))
+      .catch(console.log);
   }
 
   async drop(): Promise<any> {

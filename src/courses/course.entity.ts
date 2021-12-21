@@ -38,7 +38,9 @@ export class Course {
 
   @Column()
   @IsNotEmpty({ message: 'Instructor is required' })
-  @Factory((faker: Faker.FakerStatic) => faker.datatype.number(10))
+  @Factory((faker: Faker.FakerStatic) =>
+    faker.random.number({ max: 10, min: 1 }),
+  )
   instructor_id: number;
 
   @OneToMany((type) => Lesson, (lesson) => lesson.course)

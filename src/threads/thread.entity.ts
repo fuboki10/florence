@@ -36,17 +36,23 @@ export class Thread {
   @Column()
   @IsMilitaryTime()
   @IsNotEmpty({ message: 'Time is required' })
-  @Factory((faker: Faker.FakerStatic) => faker.time.recent())
+  @Factory((faker: Faker.FakerStatic) =>
+    faker.date.recent().toISOString().substr(11, 5),
+  )
   time: string;
 
   @Column()
   @IsNotEmpty({ message: 'User is required' })
-  @Factory((faker: Faker.FakerStatic) => faker.datatype.number(10))
+  @Factory((faker: Faker.FakerStatic) =>
+    faker.random.number({ max: 10, min: 1 }),
+  )
   userId: number;
 
   @Column()
   @IsNotEmpty({ message: 'Course is required' })
-  @Factory((faker: Faker.FakerStatic) => faker.datatype.number(50))
+  @Factory((faker: Faker.FakerStatic) =>
+    faker.random.number({ max: 50, min: 1 }),
+  )
   courseId: number;
 
   @ManyToOne(() => User, (user) => user.replies, { cascade: true })

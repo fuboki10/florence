@@ -27,7 +27,9 @@ export class Material {
 
   @Column()
   @IsNotEmpty({ message: 'Course is required' })
-  @Factory((faker: Faker.FakerStatic) => faker.datatype.number(50))
+  @Factory((faker: Faker.FakerStatic) =>
+    faker.random.number({ max: 50, min: 1 }),
+  )
   courseId: number;
 
   @ManyToOne(() => Course, (course) => course.materials, { cascade: true })
