@@ -43,7 +43,7 @@ export class ThreadsController {
   @Get()
   public async getThreads(@Query() query: FindQuery): Promise<ThreadDto[]> {
     return this.threadsService.find(query, {
-      where: { parent: null, title: ILike(`${query.q}%`) },
+      where: { parent: null, text: ILike(`${query.q}%`) },
     });
   }
 }
