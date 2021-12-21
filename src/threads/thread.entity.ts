@@ -47,7 +47,7 @@ export class Thread {
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @ManyToOne(() => User, (user) => user.replies, { cascade: true })
+  @ManyToOne(() => Course, (course) => course.threads, { cascade: true })
   @JoinColumn({ name: 'courseId' })
   course: Course;
 

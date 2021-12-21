@@ -1,5 +1,13 @@
 import { IsNotEmpty, IsOptional, IsUrl } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Course } from 'src/courses/course.entity';
+import { User } from 'src/users/user.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'materials' })
 export class Material {
@@ -14,6 +22,14 @@ export class Material {
   @IsOptional()
   @IsUrl()
   url: string;
+
+  @Column()
+  @IsNotEmpty({ message: 'Course is required' })
+  courseId: number;
+
+  @ManyToOne(() => Course, (course) => course.materials, { cascade: true })
+  @JoinColumn({ name: 'courseId' })
+  course: Course;
 
   constructor(data: Partial<Material> = {}) {
     Object.assign(this, data);

@@ -1,12 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { IsString, IsUrl } from 'class-validator';
+import { IsInt, IsString, IsUrl } from 'class-validator';
 
 export class CreateMaterialDto {
   @ApiProperty()
   @Expose()
   @IsString()
   readonly title: string;
+
+  @ApiProperty()
+  @Expose()
+  @IsInt()
+  readonly courseId: number;
 }
 
 export class MaterialDto {
@@ -23,4 +28,9 @@ export class MaterialDto {
   @Expose()
   @IsUrl()
   readonly url: string;
+
+  @ApiProperty()
+  @Expose()
+  @IsInt()
+  readonly courseId: number;
 }

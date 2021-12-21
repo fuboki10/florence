@@ -2,7 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { ThreadDto } from '../threads/thread.dto';
 import { LessonDto } from '../lessons/lessons.dto';
-import { Profile } from 'src/users/user.dto';
+import { Profile } from '../users/user.dto';
+import { MaterialDto } from '../materials/material.dto';
 
 export class CourseDto {
   @ApiProperty()
@@ -36,6 +37,10 @@ export class CourseDto {
   @ApiProperty({ type: [ThreadDto] })
   @Expose()
   readonly threads: ThreadDto[];
+
+  @ApiProperty({ type: [MaterialDto] })
+  @Expose()
+  readonly materials: MaterialDto[];
 }
 
 export class SimpleCourseDto {

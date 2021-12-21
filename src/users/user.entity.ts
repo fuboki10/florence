@@ -26,11 +26,11 @@ export class User {
   password: string;
 
   @Column()
-  @Factory((faker: Faker.FakerStatic) => faker.name.findName())
+  @Factory((faker: Faker.FakerStatic) => faker.name.firstName())
   firstName: string;
 
   @Column()
-  @Factory((faker: Faker.FakerStatic) => faker.name.findName())
+  @Factory((faker: Faker.FakerStatic) => faker.name.lastName())
   lastName: string;
 
   @Column({
