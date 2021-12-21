@@ -58,14 +58,14 @@ export class CoursesController {
   @Get()
   public async get(
     @Query() query: FindQuery,
-    @AuthUser() user: User,
+    @AuthUser() user: Profile,
   ): Promise<CourseDto[]> {
     return this.courseService.find(
       query,
       {
         where: { title: ILike(`${query.q}%`) },
       },
-      user,
+      await this.usersSerivce.findOne({ where: { id: user.id } }),
     );
   }
 
