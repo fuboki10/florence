@@ -21,8 +21,10 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node --files -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts",
     "db:migrate": "npm run typeorm migration:run",
-    "db:migrate-revert": "npm run typeorm migration:revert",
+    "db:migrate-revert": "npm run build && npm run typeorm migration:revert",
     "db:create-migration": "npm run build && npm run typeorm migration:create -- -n",
+    "db:create": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:create --config src/ormconfig.ts",
+    "db:drop": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:drop --config src/ormconfig.ts",
     "seed": "npm run build && cross-env NODE_ENV=development node dist/seeder",
     "seed:refresh": "npm run build && cross-env NODE_ENV=development node dist/seeder --refresh"
   },
@@ -49,7 +51,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "swagger-ui-express": "^4.2.0",
-    "typeorm": "^0.2.41"
+    "typeorm": "^0.2.41",
+    "typeorm-extension": "^1.0.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
