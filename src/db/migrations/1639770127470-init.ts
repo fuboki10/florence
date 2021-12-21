@@ -2,12 +2,10 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class init1639770127470 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      'DROP DATABASE IF EXISTS florence; CREATE DATABASE florence;',
-    );
+    await queryRunner.createDatabase('florence', true);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query('DROP DATABASE IF EXISTS florence;');
+    await queryRunner.dropDatabase('florence', true);
   }
 }
