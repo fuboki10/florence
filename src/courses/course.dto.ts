@@ -63,6 +63,10 @@ export class SimpleCourseDto {
   @ApiProperty()
   @Expose()
   readonly instructor_id: number;
+
+  @ApiProperty({ type: Profile })
+  @Expose()
+  readonly instructor: Profile;
 }
 
 export class CreateCourseDto {

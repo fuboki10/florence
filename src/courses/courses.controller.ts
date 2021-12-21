@@ -12,7 +12,7 @@ import {
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FindOneParams, ValidationPipe } from '../common';
 import { JwtAuthGuard } from '../auth/jwt';
-import { CourseDto, CreateCourseDto } from './course.dto';
+import { CourseDto, CreateCourseDto, SimpleCourseDto } from './course.dto';
 import { CoursesService } from './courses.service';
 import { FindQuery } from '../common/find-query.dto';
 import { RolesGuard } from '../auth/roles.guard';
@@ -59,7 +59,7 @@ export class CoursesController {
   public async get(
     @Query() query: FindQuery,
     @AuthUser() user: Profile,
-  ): Promise<CourseDto[]> {
+  ): Promise<SimpleCourseDto[]> {
     return this.courseService.find(
       query,
       {

@@ -40,6 +40,7 @@ export class CoursesService {
     const courses: Course[] = await this.courseRepository.find({
       ...options,
       ...where,
+      relations: ['instructor'],
     });
 
     if (user) {
