@@ -80,7 +80,7 @@ export class MaterialsController {
 
     return this.materialsService.updateUrl(
       params.id,
-      req.headers.host + '/api/' + file.path,
+      'http://' + req.headers.host + '/api/' + file.path,
     );
   }
 }

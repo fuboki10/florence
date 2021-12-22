@@ -42,17 +42,6 @@ export class MaterialsService {
   public async updateUrl(id: number, url: string): Promise<Material> {
     const material = await this.findOne({ where: { id } });
 
-    if (material.url) {
-      const parameters = material.url.split('/');
-      const path = join(
-        __dirname,
-        '/../../',
-        parameters[parameters.length - 2],
-        parameters[parameters.length - 1],
-      );
-      await deleteFileIfExists(path);
-    }
-
     material.url = url;
 
     await this.materialRepository.save(material);

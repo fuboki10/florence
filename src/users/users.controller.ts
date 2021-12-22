@@ -190,7 +190,7 @@ export class UsersController {
 
     return this.usersService.updateAvatar(
       user.id,
-      req.headers.host + '/api/' + file.path,
+      'http://' + req.headers.host + '/api/' + file.path,
     );
   }
 }

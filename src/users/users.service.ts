@@ -99,17 +99,6 @@ export class UsersService {
   public async updateAvatar(id: number, avatar: string): Promise<Profile> {
     const user = await this.findOne({ where: { id } });
 
-    if (user.avatar) {
-      const parameters = user.avatar.split('/');
-      const path = join(
-        __dirname,
-        '/../../',
-        parameters[parameters.length - 2],
-        parameters[parameters.length - 1],
-      );
-      await deleteFileIfExists(path);
-    }
-
     user.avatar = avatar;
 
     await this.userRepository.save(user, { listeners: false });
