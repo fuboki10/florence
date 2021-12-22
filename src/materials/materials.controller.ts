@@ -52,7 +52,7 @@ export class MaterialsController {
   }
 
   @Version('1')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new RolesGuard([Role.Admin, Role.Instructor]))
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
   @uploadFile('pdf')
