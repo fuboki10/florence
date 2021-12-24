@@ -16,6 +16,7 @@ import { enumToArray, Role } from './role.enum';
 import { Thread } from '../threads/thread.entity';
 import { IsOptional, IsUrl } from 'class-validator';
 import { Factory } from 'nestjs-seeder';
+import * as faker from 'faker';
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn('increment')
@@ -40,7 +41,7 @@ export class User {
   birthDate: Date;
 
   @Column({ unique: true })
-  @Factory((faker: Faker.FakerStatic) => faker.internet.email())
+  @Factory(faker.unique(() => faker.internet.email()))
   email: string;
 
   @Column({ default: Role.Learner })
