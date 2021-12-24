@@ -41,7 +41,7 @@ export class User {
   birthDate: Date;
 
   @Column({ unique: true })
-  @Factory(faker.unique(() => faker.internet.email()))
+  @Factory(() => faker.unique(() => faker.internet.email()))
   email: string;
 
   @Column({ default: Role.Learner })
