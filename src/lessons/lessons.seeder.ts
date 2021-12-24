@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Seeder, DataFactory } from 'nestjs-seeder';
+import { writeFile } from 'promise-fs';
 import { Repository } from 'typeorm';
 import { Lesson } from './lesson.entity';
 
@@ -11,11 +12,15 @@ export class LessonsSeeder implements Seeder {
   ) {}
 
   async seed(): Promise<any> {
+    const lessonsNumber = 1000000;
     // Generate 100 Lessons.
-    const Lessons = DataFactory.createForClass(Lesson).generate(100);
+    const lessons = DataFactory.createForClass(Lesson)
+      .generate(lessonsNumber)
+      .map((lesson) => new Lesson(lesson));
 
     // Insert into the database.
-    return this.lesson.save(Lessons.map((lesson) => new Lesson(lesson)));
+    return writeFile('lessons.json', JSON.stringify(lessons));
+    return this.lesson.save(lessons);
   }
 
   async drop(): Promise<any> {
