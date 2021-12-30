@@ -14,14 +14,14 @@ export class UsersSeeder implements Seeder {
 
   async seed(): Promise<any> {
     const instructors = DataFactory.createForClass(User)
-      .generate(1000)
+      .generate(100000)
       .map((user) => {
         user.role = Role.Instructor;
         return new User(user);
       });
 
     const users = DataFactory.createForClass(User)
-      .generate(1000000 - 1000)
+      .generate(1000000)
       .map((user) => new User(user));
 
     return writeFile('users.json', JSON.stringify([...instructors, ...users]));

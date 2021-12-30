@@ -12,7 +12,7 @@ export class ThreadsSeeder implements Seeder {
   ) {}
 
   async seed(): Promise<any> {
-    const threadsNumber = 1000000;
+    const threadsNumber = 2000000;
     // Generate 100 Threads.
     const threads = DataFactory.createForClass(Thread)
       .generate(threadsNumber)

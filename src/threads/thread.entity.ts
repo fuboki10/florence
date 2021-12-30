@@ -24,7 +24,7 @@ export class Thread {
   @Column()
   @IsString()
   @IsNotEmpty({ message: 'Text is required' })
-  @Factory((faker: Faker.FakerStatic) => faker.random.words(10))
+  @Factory((faker: Faker.FakerStatic) => faker.random.words(3))
   text: string;
 
   @Column()
@@ -51,7 +51,7 @@ export class Thread {
   @Column()
   @IsNotEmpty({ message: 'Course is required' })
   @Factory((faker: Faker.FakerStatic) =>
-    faker.random.number({ max: 1000000, min: 1 }),
+    faker.random.number({ max: 3000000, min: 1 }),
   )
   courseId: number;
 

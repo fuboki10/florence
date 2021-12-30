@@ -12,7 +12,7 @@ export class CoursesSeeder implements Seeder {
   ) {}
 
   async seed(): Promise<any> {
-    const coursesNumber = 1000000;
+    const coursesNumber = 3000000;
     // Generate 50 Courses.
     const courses = DataFactory.createForClass(Course)
       .generate(coursesNumber)
