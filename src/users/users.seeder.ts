@@ -48,12 +48,13 @@ export class UsersSeeder implements Seeder {
 
   async seed(): Promise<any> {
     // Generate 10 users.
-    const users = DataFactory.createForClass(User)
-      .generate(10)
-      .map((user) => new User(user));
+    const users = DataFactory.createForClass(User).generate(10);
 
     // Insert into the database.
-    return this.user.save([...userSeed, ...users]);
+    return this.user.save(
+      [...userSeed, ...users].map((user) => new User(user)),
+      { listeners: true },
+    );
   }
 
   async drop(): Promise<any> {
