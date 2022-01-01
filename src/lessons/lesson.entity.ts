@@ -33,7 +33,7 @@ export class Lesson {
   @Column()
   @IsNotEmpty({ message: 'Course is required' })
   @Factory((faker: Faker.FakerStatic) =>
-    faker.random.number({ max: 3000000, min: 1 }),
+    faker.random.number({ max: 50, min: 1 }),
   )
   course_id: number;
 

@@ -45,7 +45,7 @@ export class Course {
   @Column()
   @IsNotEmpty({ message: 'Instructor is required' })
   @Factory((faker: Faker.FakerStatic) =>
-    faker.random.number({ max: 100000, min: 1 }),
+    faker.random.number({ max: 10, min: 1 }),
   )
   instructor_id: number;
 

@@ -44,14 +44,14 @@ export class Thread {
   @Column()
   @IsNotEmpty({ message: 'User is required' })
   @Factory((faker: Faker.FakerStatic) =>
-    faker.random.number({ max: 1000000, min: 1 }),
+    faker.random.number({ max: 10, min: 1 }),
   )
   userId: number;
 
   @Column()
   @IsNotEmpty({ message: 'Course is required' })
   @Factory((faker: Faker.FakerStatic) =>
-    faker.random.number({ max: 3000000, min: 1 }),
+    faker.random.number({ max: 50, min: 1 }),
   )
   courseId: number;
 

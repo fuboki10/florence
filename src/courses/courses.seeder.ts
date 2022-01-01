@@ -12,14 +12,13 @@ export class CoursesSeeder implements Seeder {
   ) {}
 
   async seed(): Promise<any> {
-    const coursesNumber = 3000000;
+    const coursesNumber = 50;
     // Generate 50 Courses.
     const courses = DataFactory.createForClass(Course)
       .generate(coursesNumber)
       .map((course) => new Course(course));
 
     // Insert into the database.
-    return writeFile('courses.json', JSON.stringify(courses));
     return this.course.save(courses);
   }
 
