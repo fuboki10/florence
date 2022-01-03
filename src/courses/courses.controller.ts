@@ -116,4 +116,17 @@ export class CoursesController {
       courseId: params.id,
     });
   }
+
+  @Version('1')
+  @ApiResponse({ type: [ThreadDto] })
+  @Get(':id/threads')
+  public async getCourseThreads(
+    @Param() params: FindOneParams,
+    @Query() query: FindQuery,
+  ): Promise<ThreadDto[]> {
+    return this.threadsService.find(query, {
+      where: { courseId: params.id, parent: null },
+      order: { date: 'ASC', time: 'ASC' },
+    });
+  }
 }
