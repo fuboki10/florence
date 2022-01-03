@@ -27,7 +27,7 @@ export class Lesson {
   @Column()
   @IsNotEmpty({ message: 'Url is required' })
   @IsUrl()
-  @Factory('https://www.youtube.com/watch?v=PQZhN65vq9E')
+  @Factory('https://www.youtube.com/embed/PQZhN65vq9E')
   url: string;
 
   @Column()
