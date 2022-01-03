@@ -47,12 +47,19 @@ export class UsersSeeder implements Seeder {
   ) {}
 
   async seed(): Promise<any> {
-    // Generate 10 users.
-    const users = DataFactory.createForClass(User).generate(10);
+    // generate 5 instructors
+    const instructors = DataFactory.createForClass(User)
+      .generate(5)
+      .map((user) => {
+        user.role = Role.Instructor;
+        return user;
+      });
+    // Generate 5 users.
+    const users = DataFactory.createForClass(User).generate(5);
 
     // Insert into the database.
     return this.user.save(
-      [...userSeed, ...users].map((user) => new User(user)),
+      [...instructors, ...userSeed, ...users].map((user) => new User(user)),
       { listeners: true },
     );
   }
