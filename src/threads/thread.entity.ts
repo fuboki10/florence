@@ -16,7 +16,7 @@ import {
 import { Course } from '../courses/course.entity';
 import { Factory } from 'nestjs-seeder';
 
-@Entity({ name: 'threads', orderBy: { date: 'ASC', time: 'ASC' } })
+@Entity({ name: 'threads', orderBy: { date: 'DESC', time: 'DESC' } })
 export class Thread {
   @PrimaryGeneratedColumn('increment')
   id: number;

@@ -23,7 +23,6 @@ import { UsersService } from '../users/users.service';
 import { ThreadsService } from '../threads/threads.service';
 import { CreateThreadDto, ThreadDto } from '../threads/thread.dto';
 import { ILike } from 'typeorm';
-import { User } from '../users/user.entity';
 
 @Controller('courses')
 @ApiTags('courses')
@@ -47,7 +46,7 @@ export class CoursesController {
       {},
       {
         where: { courseId: course.id, parent: null },
-        order: { date: 'ASC', time: 'ASC' },
+        order: { date: 'DESC', time: 'DESC' },
       },
     );
 
@@ -126,7 +125,7 @@ export class CoursesController {
   ): Promise<ThreadDto[]> {
     return this.threadsService.find(query, {
       where: { courseId: params.id, parent: null },
-      order: { date: 'ASC', time: 'ASC' },
+      order: { date: 'DESC', time: 'DESC' },
     });
   }
 }
