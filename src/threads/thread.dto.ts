@@ -23,7 +23,7 @@ export class CreateThreadDto {
   readonly date: string;
 
   @ApiProperty({ required: true })
-  @Matches(new RegExp('dd:dd(:dd)?'), {
+  @Matches(new RegExp(/\d\d:\d\d(:\d\d)?/), {
     message: 'Please Enter a valid time (hh:mm or hh:mm:ss)',
   })
   @IsNotEmpty({ message: 'Time is required' })
