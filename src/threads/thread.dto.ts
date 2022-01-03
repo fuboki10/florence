@@ -5,6 +5,7 @@ import {
   IsMilitaryTime,
   IsNotEmpty,
   IsString,
+  Matches,
 } from 'class-validator';
 import { Profile } from '../users/user.dto';
 
@@ -22,7 +23,9 @@ export class CreateThreadDto {
   readonly date: string;
 
   @ApiProperty({ required: true })
-  @IsMilitaryTime()
+  @Matches(new RegExp('dd:dd(:dd)?'), {
+    message: 'Please Enter a valid time (hh:mm or hh:mm:ss)',
+  })
   @IsNotEmpty({ message: 'Time is required' })
   @Expose()
   readonly time: string;
