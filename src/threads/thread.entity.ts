@@ -6,6 +6,7 @@ import {
 } from 'class-validator';
 import { User } from '../users/user.entity';
 import {
+  AfterLoad,
   Column,
   Entity,
   JoinColumn,
@@ -73,5 +74,16 @@ export class Thread {
 
   constructor(data: Partial<User> = {}) {
     Object.assign(this, data);
+  }
+
+  @AfterLoad()
+  sortReplies() {
+    if (this?.replies?.length) {
+      this.replies.sort((a: Thread, b: Thread) => {
+        if (a.date === b.date) {
+          return a.time.localeCompare(b.time);
+        } else return a.date.localeCompare(b.date);
+      });
+    }
   }
 }

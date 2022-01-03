@@ -46,7 +46,10 @@ export class CoursesController {
       {},
       {
         where: { courseId: course.id, parent: null },
-        order: { date: 'DESC', time: 'DESC' },
+        order: {
+          date: 'DESC',
+          time: 'DESC',
+        },
       },
     );
 
