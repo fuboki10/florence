@@ -11,8 +11,6 @@ export class ThreadsService {
   ) {}
 
   public async create(data: Partial<Thread>): Promise<Thread> {
-    console.log(data);
-
     let thread: Thread;
     try {
       thread = await this.threadRepository.save(new Thread(data));
