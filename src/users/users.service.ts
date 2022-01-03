@@ -45,7 +45,7 @@ export class UsersService {
       throw new PasswordInvalidException();
     }
 
-    data.password = data.newPassword ?? data.password;
+    data.password = data.newPassword || data.password;
 
     const { newPassword, ...partialUser } = data;
 

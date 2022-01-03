@@ -8,6 +8,7 @@ import {
   IsOptional,
   IsDefined,
   IsNotEmpty,
+  ValidateIf,
 } from 'class-validator';
 import { Role } from './role.enum';
 export class Profile {
@@ -79,7 +80,9 @@ export class EditProfile {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsDefined()
-  @MinLength(6)
+  @MinLength(6, {
+    message: 'The password was invalid',
+  })
   @Expose()
   public password: string;
 
@@ -87,6 +90,7 @@ export class EditProfile {
   @IsOptional()
   @IsDefined()
   @MinLength(6)
+  @ValidateIf((e) => e.newPassword !== '')
   @Expose()
   readonly newPassword?: string;
 }
