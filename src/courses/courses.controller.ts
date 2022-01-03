@@ -45,7 +45,10 @@ export class CoursesController {
 
     course.threads = await this.threadsService.find(
       {},
-      { where: { courseId: course.id, parent: null } },
+      {
+        where: { courseId: course.id, parent: null },
+        order: { date: 'ASC', time: 'ASC' },
+      },
     );
 
     return course;
