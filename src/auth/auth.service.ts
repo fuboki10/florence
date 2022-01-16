@@ -24,7 +24,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password!');
     }
 
-    // check if password is right
+    // check if password is correct
     if (!(await user.checkPassword(password))) {
       throw new UnauthorizedException('Invalid email or password!');
     }
