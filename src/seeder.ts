@@ -27,7 +27,7 @@ seeder({
         port: configService.get<number>('DB_PORT', 5432),
         username: configService.get<string>('DB_USER'),
         password: configService.get<string>('DB_PASS'),
-        database: 'florence',
+        database: configService.get<string>('DB_NAME', 'florence'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
       }),
