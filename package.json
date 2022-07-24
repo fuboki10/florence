@@ -29,7 +29,8 @@
     "db:create": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:create --config src/ormconfig.ts",
     "db:drop": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:drop --config src/ormconfig.ts",
     "seed": "npm run build && cross-env NODE_ENV=development node dist/seeder",
-    "seed:refresh": "npm run build && cross-env NODE_ENV=development node dist/seeder --refresh"
+    "seed:refresh": "npm run build && cross-env NODE_ENV=development node dist/seeder --refresh",
+    "postinstall": "npm run build && npm run db:drop && npm run db:migrate && npm run seed"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
