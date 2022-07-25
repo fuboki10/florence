@@ -37,4 +37,4 @@ lerna-debug.log*
 # data
 *.json
 
-production.env
+.production.env
