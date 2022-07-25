@@ -29,7 +29,7 @@ import { MaterialsModule } from './materials/materials.module';
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get<string>('DB_HOST', 'localhost'),
-        port: configService.get<number>('DB_PORT', 5432),
+        port: configService.get<number | undefined>('DB_PORT', 5432),
         username: configService.get<string>('DB_USER'),
         password: configService.get<string>('DB_PASS'),
         database: configService.get<string>('DB_NAME', 'florence'),
