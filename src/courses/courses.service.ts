@@ -67,8 +67,10 @@ export class CoursesService {
     userId: number,
   ): Promise<CourseLibrary[]> {
     const conn = getConnection();
+    const queryRunner = conn.createQueryRunner();
+    await queryRunner.connect();
 
-    const result = await conn.createQueryRunner().query(
+    const result = await queryRunner.query(
       `
       select courses.*, cast(count(distinct lessons.id) as integer) as lessons from courses 
       left join lessons on lessons.course_id = courses.id
@@ -80,7 +82,7 @@ export class CoursesService {
       [userId, options.take, options.skip],
     );
 
-    await conn.close();
+    await queryRunner.release();
 
     return result;
   }
@@ -93,8 +95,10 @@ export class CoursesService {
     userId: number,
   ): Promise<CourseLibrary[]> {
     const conn = getConnection();
+    const queryRunner = conn.createQueryRunner();
+    await queryRunner.connect();
 
-    const result = await conn.createQueryRunner().query(
+    const result = await queryRunner.query(
       `
   select courses.*, cast(count(distinct lessons.id) as integer) as lessons from courses  
   left join lessons on lessons.course_id = courses.id
@@ -107,7 +111,8 @@ export class CoursesService {
       [userId, options.take, options.skip],
     );
 
-    await conn.close();
+    await queryRunner.release();
+
     return result;
   }
 }
