@@ -83,6 +83,7 @@ export class User {
   @AfterLoad()
   getName() {
     this.name = this.firstName + ' ' + this.lastName;
+    this.appendUrlToAvatar(process.env.APP_URL);
   }
 
   async checkPassword(plainPassword: string): Promise<boolean> {
