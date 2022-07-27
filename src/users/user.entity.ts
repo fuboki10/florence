@@ -14,7 +14,7 @@ import * as bcrypt from 'bcryptjs';
 import { Course } from '../courses/course.entity';
 import { enumToArray, Role } from './role.enum';
 import { Thread } from '../threads/thread.entity';
-import { IsOptional, IsUrl } from 'class-validator';
+import { IsOptional } from 'class-validator';
 import { Factory } from 'nestjs-seeder';
 import * as faker from 'faker';
 @Entity({ name: 'users' })
@@ -52,11 +52,9 @@ export class User {
   role: Role;
 
   @Column({
-    nullable: true,
     default: 'files/default.png',
   })
   @IsOptional()
-  @IsUrl()
   avatar: string;
 
   @OneToMany((type) => Course, (course) => course.instructor)
