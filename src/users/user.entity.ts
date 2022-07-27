@@ -53,7 +53,7 @@ export class User {
 
   @Column({
     nullable: true,
-    default: 'http://localhost:3000/api/files/default.png',
+    default: 'files/default.png',
   })
   @IsOptional()
   @IsUrl()
@@ -89,5 +89,10 @@ export class User {
 
   async checkPassword(plainPassword: string): Promise<boolean> {
     return await bcrypt.compare(plainPassword, this.password);
+  }
+
+  public appendUrlToAvatar(url: string): User {
+    this.avatar = `${url}${this.avatar}`;
+    return this;
   }
 }

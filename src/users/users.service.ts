@@ -1,12 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { deleteFileIfExists, PasswordInvalidException } from '../common';
+import { PasswordInvalidException } from '../common';
 import { FindOneOptions, Repository } from 'typeorm';
 import { EditProfile, Profile } from './user.dto';
 import { User } from './user.entity';
 import { Role } from './role.enum';
 import { Course } from '../courses/course.entity';
-import { join } from 'path';
 
 @Injectable()
 export class UsersService {

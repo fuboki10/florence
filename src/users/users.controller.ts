@@ -46,6 +46,7 @@ import {
   editFileName,
   imageFileFilter,
   uploadFile,
+  getUrlFromRequest,
 } from '../common';
 import { UsersService } from './users.service';
 import { Session } from '../auth/dto';
@@ -53,6 +54,7 @@ import { AuthService } from '../auth/auth.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { ILike } from 'typeorm';
+import { Request } from 'express';
 
 @Controller('users')
 @ApiTags('users')
@@ -68,8 +70,12 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Get('me')
-  public async login(@AuthUser() user: Profile): Promise<Profile> {
-    return user;
+  public async login(
+    @AuthUser() user: Profile,
+    @Req() req: Request,
+  ): Promise<Profile> {
+    const url = getUrlFromRequest(req);
+    return user.appendUrlToAvatar(url);
   }
 
   @Version('1')
@@ -81,8 +87,11 @@ export class UsersController {
   public async editProfile(
     @AuthUser() user: Profile,
     @Body() data: EditProfile,
+    @Req() req: Request,
   ): Promise<Session> {
+    const url = getUrlFromRequest(req);
     const newUser = await this.usersService.update(user.id, data);
+    newUser.appendUrlToAvatar(url);
     return this.authService.login(newUser);
   }
 
@@ -122,6 +131,7 @@ export class UsersController {
   public async getUsers(
     @Body() getUsersRequest: GetUsersRequest,
     @Query() query: FindQuery,
+    @Req() req: Request,
   ): Promise<GetUsersResponse> {
     // Get needed users
     const users = await this.usersService.find(query, {
@@ -131,6 +141,12 @@ export class UsersController {
         }),
         firstName: ILike(`${query.q}%`),
       },
+    });
+
+    // Append url to avatar
+    const url = getUrlFromRequest(req);
+    users.forEach((user) => {
+      user.appendUrlToAvatar(url);
     });
 
     // Group users by role
@@ -157,8 +173,12 @@ export class UsersController {
   public async changeRole(
     @Param() params: FindOneParams,
     @Body() changeRole: ChangeRole,
+    @Req() req: Request,
   ): Promise<Profile> {
-    return this.usersService.updateRole(params.id, changeRole.role);
+    const url = getUrlFromRequest(req);
+    const user = await this.usersService.updateRole(params.id, changeRole.role);
+    user.appendUrlToAvatar(url);
+    return user;
   }
 
   @Version('1')
@@ -188,9 +208,9 @@ export class UsersController {
       );
     }
 
-    return this.usersService.updateAvatar(
-      user.id,
-      'http://' + req.headers.host + '/api/' + file.path,
-    );
+    const profile = await this.usersService.updateAvatar(user.id, file.path);
+
+    const url = getUrlFromRequest(req);
+    return profile.appendUrlToAvatar(url);
   }
 }

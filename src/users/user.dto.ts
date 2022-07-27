@@ -45,7 +45,12 @@ export class Profile {
 
   @ApiProperty()
   @Expose()
-  readonly avatar: string;
+  avatar: string;
+
+  public appendUrlToAvatar(url: string): Profile {
+    this.avatar = `${url}${this.avatar}`;
+    return this;
+  }
 }
 
 export class EditProfile {
