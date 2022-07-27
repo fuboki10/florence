@@ -29,7 +29,7 @@ seeder({
         password: configService.get<string>('DB_PASS'),
         database: configService.get<string>('DB_NAME', 'florence'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        synchronize: false,
       }),
       inject: [ConfigService],
     }),
