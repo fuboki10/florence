@@ -54,7 +54,7 @@
     "promise-fs": "^2.1.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0",
+    "rxjs": "^7.6.0",
     "swagger-ui-express": "^4.2.0",
     "typeorm": "^0.2.41",
     "typeorm-extension": "^1.2.2"
